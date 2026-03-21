@@ -1,0 +1,61 @@
+# Android Generic
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Project specific
+/app/build/
+.kotlin/
+*.log
+
+# Studio-specific
+.idea/
+*.iws
+*.ipr
+
+# Secrets & Local Config
+local.properties
+.idea/shelf/
+.idea/gradle.xml
+
+# Gradle
+.gradle/
+build/
+
+# Android Studio - User-specific
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/codeStyles/
+.idea/scopes/
+.idea/copyright/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Bundle
+*.apks
+*.aab
+
+# Keystore
+*.jks
+*.keystore
+*.p12
+
+# Crashlytics
+com_crashlytics_export_strings.xml
