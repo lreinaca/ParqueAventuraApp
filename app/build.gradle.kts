@@ -48,6 +48,7 @@ dependencies {
 
     // Navegación
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room3.common.jvm)
 
 
     testImplementation(libs.junit)
