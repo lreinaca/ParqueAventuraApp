@@ -19,6 +19,7 @@ import com.eam.parqueaventuraapp.data.model.database.BaseDeDatosApp
 import com.eam.parqueaventuraapp.data.model.repository.UsuarioRepositorio
 import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
 import com.eam.parqueaventuraapp.ui.theme.pantallas.AdminUsuariosPantalla
+import com.eam.parqueaventuraapp.ui.theme.pantallas.PantallaLogin
 import com.eam.parqueaventuraapp.ui.theme.pantallas.PantallaRegistro
 import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModel
 import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModelFactory
@@ -43,36 +44,13 @@ class MainActivity : ComponentActivity() {
                         startDestination = "login",
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable("login") { PantallaLogin(navController) }
+                        composable("login") { PantallaLogin(navController,userViewModel) }
                         composable("registro") { PantallaRegistro(navController, userViewModel) }
                         // Ruta para la nueva pantalla de administración
                         composable("admin_usuarios") { AdminUsuariosPantalla(navController, userViewModel) }
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun PantallaLogin(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Bienvenido al Parque")
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Button(onClick = { navController.navigate("registro") }, modifier = Modifier.fillMaxWidth(0.7f)) {
-            Text("Ir a Registro")
-        }
-        
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Botón para navegar a la pantalla de administración
-        OutlinedButton(onClick = { navController.navigate("admin_usuarios") }, modifier = Modifier.fillMaxWidth(0.7f)) {
-            Text("Administrar Usuarios")
         }
     }
 }
