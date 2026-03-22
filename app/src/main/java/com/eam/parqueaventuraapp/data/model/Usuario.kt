@@ -1,13 +1,19 @@
 package com.eam.parqueaventuraapp.data.model
 
-import androidx.room3.Entity
-import androidx.room3.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+/**
+ * CAPA 1: EL MODELO DE DATOS
+ * 
+ * Aquí definimos qué información vamos a guardar de un Usuario.
+ * La anotación @Entity convierte esta clase en una tabla de la base de datos.
+ */
 @Entity(tableName = "usuarios")
 data class Usuario(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val nombre: String,
-    val email: String,
-    val password: String
-
+    val correo: String,
+    val clave: String
 )
