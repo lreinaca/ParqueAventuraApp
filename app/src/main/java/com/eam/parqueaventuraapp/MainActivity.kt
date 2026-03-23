@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                         composable("perfil") { PantallaMiPerfil(navController, userViewModel) }
                         composable("admin_usuarios") { AdminUsuariosPantalla(navController, userViewModel) }
                         composable ("mapa_parque"){ PantallaMapaUsuario(navController) }
-                        composable ("favoritos"){ PantallaMisFavoritos(navController) }
+                        composable ("favoritos"){ PantallaMisFavoritos(navController,userViewModel) }
                     }
                 }
             }

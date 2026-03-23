@@ -27,13 +27,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.R
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
+import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
-fun PantallaMisFavoritos(navController: NavController) {
+fun PantallaMisFavoritos(navController: NavController,viewModel: UsuarioViewModel) {
     // Scaffold proporciona la estructura básica con la barra de navegación inferior
     Scaffold(
         bottomBar = {
-            BarraNavegacionFavoritos()
+            // Pasamos el navController a la barra inferior
+            BarraNavegacionFavoritos(navController)
         }
     ) { innerPadding ->
         Column(
@@ -101,7 +103,7 @@ fun TarjetaAtraccionFavorita() {
                 // Etiqueta naranja "Infantil"
                 Surface(
                     modifier = Modifier
-                        .padding(6.dp)
+                        .padding(2.dp)
                         .align(Alignment.TopStart),
                     color = Color(0xFFFF9800),
                     shape = RoundedCornerShape(4.dp)
@@ -195,7 +197,7 @@ fun TarjetaAtraccionFavorita() {
 }
 
 @Composable
-fun BarraNavegacionFavoritos() {
+fun BarraNavegacionFavoritos(navController: NavController) {
     // Barra inferior personalizada para la pantalla de favoritos
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -209,12 +211,40 @@ fun BarraNavegacionFavoritos() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ItemMenu(icon = Icons.Default.Home, label = "Inicio")
-            ItemMenu(icon = Icons.Default.ConfirmationNumber, label = "Atracciones")
-            // "Favoritos" está seleccionado en esta pantalla
-            ItemMenu(icon = Icons.Default.Favorite, label = "Favoritos", isSelected = true)
-            ItemMenu(icon = Icons.Default.Map, label = "Mapa")
-            ItemMenu(icon = Icons.Default.Person, label = "Perfil")
+            // Configuración para ir a la pantalla de inicio
+            ItemNavegacion(
+                icon = Icons.Default.Home,
+                label = "Inicio",
+                onClick = {/* Navegar a inicio cuando creemos la pantalla */}
+            )
+
+            // Configuración para atracciones
+            ItemNavegacion(
+                icon = Icons.Default.ConfirmationNumber,
+                label = "Atracciones",
+                onClick = {/* Navegar a Atracciones cuando creemos la pantalla */}
+            )
+
+            // "Favoritos" está seleccionado en esta pantalla, tiene fondo verde claro y color verde
+            ItemNavegacion(
+                icon = Icons.Default.Favorite,
+                label = "Favoritos",
+                isSelected = true
+            )
+
+            // Configuración para Mapa
+            ItemNavegacion(
+                icon = Icons.Default.Map,
+                label = "Mapa",
+                onClick = {navController.navigate("mapa_parque")}
+            )
+
+            // Configuración para Perfil
+            ItemNavegacion(
+                icon = Icons.Default.Person,
+                label = "Perfil",
+                onClick = { navController.navigate("perfil")}
+            )
         }
     }
 }

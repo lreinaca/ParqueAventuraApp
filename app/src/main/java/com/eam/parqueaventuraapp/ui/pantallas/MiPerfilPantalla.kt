@@ -159,16 +159,34 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
             ) {
                 Column {
                     OpcionPerfilItem(
-                        icon = Icons.Default.FavoriteBorder, 
-                        iconBgColor = Color(0xFFFFEBEE), 
-                        iconColor = Color.Red, 
-                        title = "Mis Favoritos", 
+                        icon = Icons.Default.FavoriteBorder,
+                        iconBgColor = Color(0xFFFFEBEE),
+                        iconColor = Color.Red,
+                        title = "Mis Favoritos",
                         subtitle = "1 atracciones",
                         onClick = { navController.navigate("favoritos") }
                     )
-                    OpcionPerfilItem(icon = Icons.Default.NotificationsNone, iconBgColor = Color(0xFFFFF3E0), iconColor = Color(0xFFFF9800), title = "Notificaciones", subtitle = "Gestionar alertas")
-                    OpcionPerfilItem(icon = Icons.Outlined.Settings, iconBgColor = Color(0xFFF5F5F5), iconColor = Color.Gray, title = "Configuración", subtitle = "Preferencias de la app")
-                    OpcionPerfilItem(icon = Icons.AutoMirrored.Filled.HelpOutline, iconBgColor = Color(0xFFE3F2FD), iconColor = Color(0xFF2196F3), title = "Ayuda", subtitle = "Centro de soporte", isLast = true)
+                    OpcionPerfilItem(
+                        icon = Icons.Default.NotificationsNone,
+                        iconBgColor = Color(0xFFFFF3E0),
+                        iconColor = Color(0xFFFF9800),
+                        title = "Notificaciones",
+                        subtitle = "Gestionar alertas")
+
+                    OpcionPerfilItem(
+                        icon = Icons.Outlined.Settings,
+                        iconBgColor = Color(0xFFF5F5F5),
+                        iconColor = Color.Gray,
+                        title = "Configuración",
+                        subtitle = "Preferencias de la app")
+
+                    OpcionPerfilItem(
+                        icon = Icons.AutoMirrored.Filled.HelpOutline,
+                        iconBgColor = Color(0xFFE3F2FD),
+                        iconColor = Color(0xFF2196F3),
+                        title = "Ayuda",
+                        subtitle = "Centro de soporte",
+                        isLast = true)
                 }
             }
 
@@ -220,6 +238,19 @@ fun BarraNavegacionInferior(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Configuración para ir a la pantalla de inicio
+            ItemNavegacion(
+                icon = Icons.Default.Home, 
+                label = "Inicio",
+                onClick = { /* Navegar a inicio cuando creemos la pantalla */ }
+            )
+
+            // Configuración para atracciones
+            ItemNavegacion(
+                icon = Icons.Default.ConfirmationNumber,
+                label = "Atracciones",
+                onClick = { /* Navegar a Atracciones cuando creemos la pantalla */ }
+            )
             // Configuración para Favoritos
             ItemNavegacion(
                 icon = Icons.Default.FavoriteBorder,
@@ -227,18 +258,13 @@ fun BarraNavegacionInferior(navController: NavController) {
                 onClick = { navController.navigate("favoritos") }
             )
 
-            ItemNavegacion(
-                icon = Icons.Default.Home, 
-                label = "Inicio",
-                onClick = { /* Navegar a inicio si existe */ }
-            )
-            ItemNavegacion(icon = Icons.Default.ConfirmationNumber, label = "Atracciones")
-
+            // Configuración para Mapa
             ItemNavegacion(
                 icon = Icons.Default.Map, 
                 label = "Mapa",
                 onClick = { navController.navigate("mapa_parque") }
             )
+
             // El item seleccionado (Perfil) tiene fondo verde claro y color verde
             ItemNavegacion(
                 icon = Icons.Default.Person, 
