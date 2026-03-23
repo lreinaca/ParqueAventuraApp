@@ -39,6 +39,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -66,7 +67,8 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
     // Usamos Scaffold para añadir la barra de navegación inferior fácilmente
     Scaffold(
         bottomBar = {
-            BarraNavegacionInferior()
+            // Pasamos el navController a la barra inferior
+            BarraNavegacionInferior(navController)
         }
     ) { innerPadding ->
         Column(
@@ -156,7 +158,14 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Column {
-                    OpcionPerfilItem(icon = Icons.Default.FavoriteBorder, iconBgColor = Color(0xFFFFEBEE), iconColor = Color.Red, title = "Mis Favoritos", subtitle = "1 atracciones")
+                    OpcionPerfilItem(
+                        icon = Icons.Default.FavoriteBorder, 
+                        iconBgColor = Color(0xFFFFEBEE), 
+                        iconColor = Color.Red, 
+                        title = "Mis Favoritos", 
+                        subtitle = "1 atracciones",
+                        onClick = { navController.navigate("favoritos") }
+                    )
                     OpcionPerfilItem(icon = Icons.Default.NotificationsNone, iconBgColor = Color(0xFFFFF3E0), iconColor = Color(0xFFFF9800), title = "Notificaciones", subtitle = "Gestionar alertas")
                     OpcionPerfilItem(icon = Icons.Outlined.Settings, iconBgColor = Color(0xFFF5F5F5), iconColor = Color.Gray, title = "Configuración", subtitle = "Preferencias de la app")
                     OpcionPerfilItem(icon = Icons.AutoMirrored.Filled.HelpOutline, iconBgColor = Color(0xFFE3F2FD), iconColor = Color(0xFF2196F3), title = "Ayuda", subtitle = "Centro de soporte", isLast = true)
@@ -197,7 +206,7 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
 }
 
 @Composable
-fun BarraNavegacionInferior() {
+fun BarraNavegacionInferior(navController: NavController) {
     // Fila que simula la barra de navegación inferior de la imagen
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -211,18 +220,43 @@ fun BarraNavegacionInferior() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ItemNavegacion(icon = Icons.Default.Home, label = "Inicio")
+            // Configuración para Favoritos
+            ItemNavegacion(
+                icon = Icons.Default.FavoriteBorder,
+                label = "Favoritos",
+                onClick = { navController.navigate("favoritos") }
+            )
+
+            ItemNavegacion(
+                icon = Icons.Default.Home, 
+                label = "Inicio",
+                onClick = { /* Navegar a inicio si existe */ }
+            )
             ItemNavegacion(icon = Icons.Default.ConfirmationNumber, label = "Atracciones")
-            ItemNavegacion(icon = Icons.Default.FavoriteBorder, label = "Favoritos")
-            ItemNavegacion(icon = Icons.Default.Map, label = "Mapa")
+
+            ItemNavegacion(
+                icon = Icons.Default.Map, 
+                label = "Mapa",
+                onClick = { navController.navigate("mapa_parque") }
+            )
             // El item seleccionado (Perfil) tiene fondo verde claro y color verde
-            ItemNavegacion(icon = Icons.Default.Person, label = "Perfil", isSelected = true)
+            ItemNavegacion(
+                icon = Icons.Default.Person, 
+                label = "Perfil", 
+                isSelected = true,
+                onClick = { /* Ya estamos en perfil */ }
+            )
         }
     }
 }
 
 @Composable
-fun ItemNavegacion(icon: ImageVector, label: String, isSelected: Boolean = false) {
+fun ItemNavegacion(
+    icon: ImageVector,
+    label: String,
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {} // Función para manejar el clic en el ítem mediante este parámetro lambda
+) {
     // Cada icono individual de la barra inferior
     val color = if (isSelected) AccentGreen else Color.Gray
     val bgColor = if (isSelected) Color(0xFFE8F5E9) else Color.Transparent
@@ -231,6 +265,8 @@ fun ItemNavegacion(icon: ImageVector, label: String, isSelected: Boolean = false
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .background(bgColor)
+            // hacemos que el item sea cliclable y llamamos a la función onClick
+            .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -272,10 +308,18 @@ fun EstadisticaCard(icon: ImageVector, value: String, label: String, iconColor: 
 }
 
 @Composable
-fun OpcionPerfilItem(icon: ImageVector, iconBgColor: Color, iconColor: Color, title: String, subtitle: String, isLast: Boolean = false) {
+fun OpcionPerfilItem(
+    icon: ImageVector, 
+    iconBgColor: Color, 
+    iconColor: Color, 
+    title: String, 
+    subtitle: String, 
+    isLast: Boolean = false,
+    onClick: () -> Unit = {}
+) {
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth().clickable {}.padding(16.dp),
+            modifier = Modifier.fillMaxWidth().clickable { onClick() }.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.size(40.dp).background(iconBgColor, CircleShape), contentAlignment = Alignment.Center) {

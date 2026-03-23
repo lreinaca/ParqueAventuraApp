@@ -16,7 +16,9 @@ import com.eam.parqueaventuraapp.data.modelo.database.BaseDeDatosApp
 import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
 import com.eam.parqueaventuraapp.ui.pantallas.AdminUsuariosPantalla
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaLogin
+import com.eam.parqueaventuraapp.ui.pantallas.PantallaMapaUsuario
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaMiPerfil
+import com.eam.parqueaventuraapp.ui.pantallas.PantallaMisFavoritos
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaRegistro
 import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
@@ -47,6 +49,8 @@ class MainActivity : ComponentActivity() {
                         composable("registro") { PantallaRegistro(navController, userViewModel) }
                         composable("perfil") { PantallaMiPerfil(navController, userViewModel) }
                         composable("admin_usuarios") { AdminUsuariosPantalla(navController, userViewModel) }
+                        composable ("mapa_parque"){ PantallaMapaUsuario(navController) }
+                        composable ("favoritos"){ PantallaMisFavoritos(navController) }
                     }
                 }
             }
