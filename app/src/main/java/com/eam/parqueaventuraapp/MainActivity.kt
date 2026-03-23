@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -13,13 +14,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.eam.parqueaventuraapp.data.modelo.database.BaseDeDatosApp
 import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
-import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
 import com.eam.parqueaventuraapp.ui.pantallas.AdminUsuariosPantalla
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaLogin
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaRegistro
-import com.eam.parqueaventuraapp.ui.theme.pantallas.AdminUsuariosPantalla
-import com.eam.parqueaventuraapp.ui.theme.pantallas.PantallaRegistro
-import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModel
+import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModelFactory
 
