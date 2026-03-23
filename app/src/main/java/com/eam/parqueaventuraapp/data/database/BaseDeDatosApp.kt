@@ -1,10 +1,10 @@
-package com.eam.parqueaventuraapp.data.model.database
+package com.eam.parqueaventuraapp.data.modelo.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.eam.parqueaventuraapp.data.model.Usuario
+import com.eam.parqueaventuraapp.data.modelo.Usuario
 
 // Definimos la configuración de la base de datos: 
 // 1. 'entities' indica qué tablas contiene (en este caso, Usuario).

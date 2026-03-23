@@ -1,4 +1,4 @@
-package com.eam.parqueaventuraapp.ui.theme.pantallas
+package com.eam.parqueaventuraapp.ui.pantallas
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -21,18 +21,16 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModel
+import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
 fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
     var correo by remember { mutableStateOf("") }
     var clave by remember { mutableStateOf("") }
-    var claveVisible by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val loginStatus by viewModel.loginStatus.observeAsState()
@@ -57,7 +55,6 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
     ) {
         Spacer(modifier = Modifier.height(60.dp))
 
-        // Icono de Rayo (Usando un icono disponible por defecto para evitar errores de compilación)
         Box(
             modifier = Modifier
                 .size(60.dp)
@@ -65,7 +62,7 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.Send, // Cambiado temporalmente para evitar errores
+                imageVector = Icons.AutoMirrored.Filled.Send,
                 contentDescription = null,
                 tint = Color.Black,
                 modifier = Modifier.size(30.dp)
@@ -88,10 +85,8 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Tarjeta Blanca
         Surface(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             color = Color.White,
             shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
         ) {
@@ -114,7 +109,6 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Campo Correo
                 Text("Correo electrónico", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -123,16 +117,11 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                     placeholder = { Text("demo@aventurapark.com", color = lightGrayText) },
                     leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = lightGrayText) },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFFE5E7EB),
-                        unfocusedBorderColor = Color(0xFFE5E7EB)
-                    )
+                    shape = RoundedCornerShape(12.dp)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Campo Contraseña
                 Text("Contraseña", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -142,39 +131,22 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = lightGrayText) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFFE5E7EB),
-                        unfocusedBorderColor = Color(0xFFE5E7EB)
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "¿Olvidaste tu contraseña?",
-                    color = accentGreen,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.End).clickable { /* Acción */ }
+                    shape = RoundedCornerShape(12.dp)
                 )
 
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Botón Iniciar Sesión
                 Button(
                     onClick = { viewModel.inicioSesion(correo, clave) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
+                    modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = accentGreen),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Iniciar Sesión", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("Iniciar Sesión", color = Color.Black, fontWeight = FontWeight.Bold)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Texto de Registro
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Text(
                         text = buildAnnotatedString {
@@ -183,8 +155,6 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                                 append("Regístrate")
                             }
                         },
-                        fontSize = 14.sp,
-                        color = Color.Gray,
                         modifier = Modifier.clickable { navController.navigate("registro") }
                     )
                 }

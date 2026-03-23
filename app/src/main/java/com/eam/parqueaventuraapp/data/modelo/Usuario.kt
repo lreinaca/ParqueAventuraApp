@@ -1,4 +1,4 @@
-package com.eam.parqueaventuraapp.data.model
+package com.eam.parqueaventuraapp.data.modelo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

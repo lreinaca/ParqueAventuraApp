@@ -6,23 +6,22 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.eam.parqueaventuraapp.data.model.database.BaseDeDatosApp
-import com.eam.parqueaventuraapp.data.model.repository.UsuarioRepositorio
+import com.eam.parqueaventuraapp.data.modelo.database.BaseDeDatosApp
+import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
 import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
+import com.eam.parqueaventuraapp.ui.pantallas.AdminUsuariosPantalla
+import com.eam.parqueaventuraapp.ui.pantallas.PantallaLogin
+import com.eam.parqueaventuraapp.ui.pantallas.PantallaRegistro
 import com.eam.parqueaventuraapp.ui.theme.pantallas.AdminUsuariosPantalla
-import com.eam.parqueaventuraapp.ui.theme.pantallas.PantallaLogin
 import com.eam.parqueaventuraapp.ui.theme.pantallas.PantallaRegistro
 import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModel
-import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModelFactory
+import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
+import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +43,8 @@ class MainActivity : ComponentActivity() {
                         startDestination = "login",
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable("login") { PantallaLogin(navController,userViewModel) }
+                        composable("login") { PantallaLogin(navController, userViewModel) }
                         composable("registro") { PantallaRegistro(navController, userViewModel) }
-                        // Ruta para la nueva pantalla de administración
                         composable("admin_usuarios") { AdminUsuariosPantalla(navController, userViewModel) }
                     }
                 }

@@ -1,12 +1,12 @@
-package com.eam.parqueaventuraapp.ui.theme.viewModel
+package com.eam.parqueaventuraapp.ui.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.eam.parqueaventuraapp.data.model.Usuario
-import com.eam.parqueaventuraapp.data.model.repository.UsuarioRepositorio
+import com.eam.parqueaventuraapp.data.modelo.Usuario
+import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

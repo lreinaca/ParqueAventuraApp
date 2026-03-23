@@ -1,7 +1,7 @@
-package com.eam.parqueaventuraapp.data.model.repository
+package com.eam.parqueaventuraapp.data.modelo.repository
 
-import com.eam.parqueaventuraapp.data.model.Usuario
-import com.eam.parqueaventuraapp.data.model.database.UsuarioDao
+import com.eam.parqueaventuraapp.data.modelo.Usuario
+import com.eam.parqueaventuraapp.data.modelo.database.UsuarioDao
 import kotlinx.coroutines.flow.Flow
 
 /**

@@ -1,4 +1,4 @@
-package com.eam.parqueaventuraapp.ui.theme.pantallas
+package com.eam.parqueaventuraapp.ui.pantallas
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -25,19 +25,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModel
+import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
 fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) {
-    // Definición de estados para los campos de texto usando remember para mantener el valor durante recomposiciones
     var nombre by remember { mutableStateOf("") }
     var correo by remember { mutableStateOf("") }
     var clave by remember { mutableStateOf("") }
     
-    // Obtenemos el contexto actual para mostrar mensajes (Toast)
     val contexto = LocalContext.current
 
-    // Contenedor principal organizado en una columna centrada
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,13 +42,10 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Título de la pantalla
         Text(text = "Registro", fontSize = 32.sp, fontWeight = FontWeight.Bold)
         
-        // Espaciador vertical
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Campo de entrada para el nombre completo
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
@@ -60,7 +54,6 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de entrada para el correo electrónico
         TextField(
             value = correo,
             onValueChange = { correo = it },
@@ -69,7 +62,6 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de entrada para la contraseña con transformación visual para ocultar caracteres
         TextField(
             value = clave,
             onValueChange = { clave = it },
@@ -79,21 +71,13 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Botón para procesar el registro
         Button(
             onClick = {
-                // Validación: verificamos que ningún campo esté vacío
                 if (nombre.isNotEmpty() && correo.isNotEmpty() && clave.isNotEmpty()) {
-                    // Llamamos a la función de registro del ViewModel
                     viewModel.registro(nombre, correo, clave)
-                    
-                    // Mensaje de confirmación al usuario
                     Toast.makeText(contexto, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-                    
-                    // Navegamos hacia atrás en la pila (vuelve al login)
                     navController.popBackStack()
                 } else {
-                    // Mensaje de advertencia si faltan datos
                     Toast.makeText(contexto, "Completa todos los campos", Toast.LENGTH_SHORT).show()
                 }
             },
@@ -102,7 +86,6 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
             Text("Crear Cuenta")
         }
 
-        // Enlace para navegar de regreso si el usuario ya tiene una cuenta
         TextButton(onClick = { navController.popBackStack() }) {
             Text("¿Ya tienes cuenta? Inicia sesión")
         }

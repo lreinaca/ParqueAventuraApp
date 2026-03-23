@@ -1,4 +1,4 @@
-package com.eam.parqueaventuraapp.ui.theme.pantallas
+package com.eam.parqueaventuraapp.ui.pantallas
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,13 +14,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.eam.parqueaventuraapp.ui.theme.viewModel.UsuarioViewModel
+import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminUsuariosPantalla(navController: NavController, viewModel: UsuarioViewModel) {
-    // Observamos la lista de usuarios desde el ViewModel
-    // 'collectAsState' convierte el Flow en un Estado de Compose que recompone la pantalla al cambiar
     val usuarios by viewModel.usuarios.collectAsState(initial = emptyList())
 
     Scaffold(
@@ -48,7 +46,6 @@ fun AdminUsuariosPantalla(navController: NavController, viewModel: UsuarioViewMo
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // LazyColumn es un componente eficiente para mostrar listas largas
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
