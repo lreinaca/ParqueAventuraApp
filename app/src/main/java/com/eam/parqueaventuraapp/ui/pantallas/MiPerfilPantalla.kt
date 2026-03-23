@@ -191,8 +191,11 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
 
             // Botón Cerrar Sesión
             Button(
-                onClick = { 
-                    navController.navigate("login") { popUpTo(0) }
+                onClick = {
+                    viewModel.cerrarSesion()
+                    navController.navigate("login") { 
+                        popUpTo(0) { inclusive = true }
+                    }
                 },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = RoundedCornerShape(16.dp),
@@ -236,34 +239,34 @@ fun BarraNavegacionInferior(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Configuración para ir a la pantalla de inicio
-            ItemNavegacion(
+            ItemNavegacionPerfil(
                 icon = Icons.Default.Home, 
                 label = "Inicio",
                 onClick = { /* Navegar a inicio cuando creemos la pantalla */ }
             )
 
             // Configuración para ir a la pantalla de atracciones
-            ItemNavegacion(
+            ItemNavegacionPerfil(
                 icon = Icons.Default.ConfirmationNumber,
                 label = "Atracciones",
                 onClick = { /* Navegar a Atracciones cuando creemos la pantalla */ }
             )
             // Configuración para ir a la pantalla de Favoritos
-            ItemNavegacion(
+            ItemNavegacionPerfil(
                 icon = Icons.Default.FavoriteBorder,
                 label = "Favoritos",
                 onClick = { navController.navigate("favoritos") }
             )
 
             // Configuración para ir a la pantalla Mapa del parque
-            ItemNavegacion(
+            ItemNavegacionPerfil(
                 icon = Icons.Default.Map, 
                 label = "Mapa",
                 onClick = { navController.navigate("mapa_parque") }
             )
 
             // El item seleccionado (Perfil) tiene fondo verde claro y color verde
-            ItemNavegacion(
+            ItemNavegacionPerfil(
                 icon = Icons.Default.Person, 
                 label = "Perfil", 
                 isSelected = true,
@@ -274,7 +277,7 @@ fun BarraNavegacionInferior(navController: NavController) {
 }
 
 @Composable
-fun ItemNavegacion(
+fun ItemNavegacionPerfil(
     icon: ImageVector,
     label: String,
     isSelected: Boolean = false,

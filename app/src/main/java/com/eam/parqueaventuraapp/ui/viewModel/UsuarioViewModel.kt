@@ -38,7 +38,11 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
             _usuarioActual.postValue(usuario)
             _loginStatus.postValue(usuario != null)
         }
+    }
 
+    fun cerrarSesion() {
+        _usuarioActual.postValue(null)
+        _loginStatus.postValue(false)
     }
 }
 
