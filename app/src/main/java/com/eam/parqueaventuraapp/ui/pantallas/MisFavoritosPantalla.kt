@@ -2,6 +2,7 @@ package com.eam.parqueaventuraapp.ui.pantallas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,22 +31,19 @@ import com.eam.parqueaventuraapp.ui.theme.AccentGreen
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
-fun PantallaMisFavoritos(navController: NavController,viewModel: UsuarioViewModel) {
-    // Scaffold proporciona la estructura básica con la barra de navegación inferior
+fun PantallaMisFavoritos(navController: NavController, viewModel: UsuarioViewModel) {
     Scaffold(
         bottomBar = {
-            // Pasamos el navController a la barra inferior
             BarraNavegacionFavoritos(navController)
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF8F9FA)) // Fondo gris claro
+                .background(Color(0xFFF8F9FA))
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            // Título de la sección
             Text(
                 text = "Mis Favoritos",
                 fontSize = 24.sp,
@@ -60,7 +58,6 @@ fun PantallaMisFavoritos(navController: NavController,viewModel: UsuarioViewMode
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Lista de atracciones favoritas (usamos LazyColumn para eficiencia)
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -74,36 +71,33 @@ fun PantallaMisFavoritos(navController: NavController,viewModel: UsuarioViewMode
 
 @Composable
 fun TarjetaAtraccionFavorita() {
-    // Card que contiene la información de la atracción
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(110.dp),
+            .heightIn(min = 115.dp), // Altura mínima flexible
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Imagen de la atracción con etiqueta "Infantil"
             Box(
                 modifier = Modifier
-                    .size(110.dp)
-                    .padding(8.dp)
+                    .size(90.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background), // Reemplazar con imagen real
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
                 )
-                // Etiqueta naranja "Infantil"
                 Surface(
                     modifier = Modifier
-                        .padding(2.dp)
+                        .padding(4.dp)
                         .align(Alignment.TopStart),
                     color = Color(0xFFFF9800),
                     shape = RoundedCornerShape(4.dp)
@@ -113,16 +107,14 @@ fun TarjetaAtraccionFavorita() {
                         color = Color.White,
                         fontSize = 8.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
                     )
                 }
             }
 
-            // Información de la atracción
             Column(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(vertical = 12.dp, horizontal = 4.dp)
+                    .padding(start = 12.dp)
                     .weight(1f)
             ) {
                 Row(
@@ -144,20 +136,19 @@ fun TarjetaAtraccionFavorita() {
                 }
                 
                 Text(
-                    text = "Un encantador carrusel para toda la familia con caballos coloridos y",
+                    text = "Un encantador carrusel para toda la familia con caballos coloridos",
                     fontSize = 12.sp,
                     color = Color.Gray,
                     maxLines = 2
                 )
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Etiqueta de tiempo
                     Surface(
                         color = Color(0xFFE8F5E9),
                         shape = RoundedCornerShape(4.dp)
@@ -182,13 +173,11 @@ fun TarjetaAtraccionFavorita() {
                         }
                     }
                     
-                    // Estado "Activa"
                     Text(
                         text = "Activa",
                         color = Color(0xFF2E7D32),
                         fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(end = 8.dp)
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
@@ -198,7 +187,6 @@ fun TarjetaAtraccionFavorita() {
 
 @Composable
 fun BarraNavegacionFavoritos(navController: NavController) {
-    // Barra inferior personalizada para la pantalla de favoritos
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = Color.White,
@@ -207,50 +195,26 @@ fun BarraNavegacionFavoritos(navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
+                .padding(vertical = 8.dp, horizontal = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Configuración para ir a la pantalla de inicio
-            ItemNavegacion(
-                icon = Icons.Default.Home,
-                label = "Inicio",
-                onClick = {/* Navegar a inicio cuando creemos la pantalla */}
-            )
-
-            // Configuración para atracciones
-            ItemNavegacion(
-                icon = Icons.Default.ConfirmationNumber,
-                label = "Atracciones",
-                onClick = {/* Navegar a Atracciones cuando creemos la pantalla */}
-            )
-
-            // "Favoritos" está seleccionado en esta pantalla, tiene fondo verde claro y color verde
-            ItemNavegacion(
-                icon = Icons.Default.Favorite,
-                label = "Favoritos",
-                isSelected = true
-            )
-
-            // Configuración para Mapa
-            ItemNavegacion(
-                icon = Icons.Default.Map,
-                label = "Mapa",
-                onClick = {navController.navigate("mapa_parque")}
-            )
-
-            // Configuración para Perfil
-            ItemNavegacion(
-                icon = Icons.Default.Person,
-                label = "Perfil",
-                onClick = { navController.navigate("perfil")}
-            )
+            ItemNavegacionFavoritos(icon = Icons.Default.Home, label = "Inicio")
+            ItemNavegacionFavoritos(icon = Icons.Default.ConfirmationNumber, label = "Atracciones")
+            ItemNavegacionFavoritos(icon = Icons.Default.Favorite, label = "Favoritos", isSelected = true)
+            ItemNavegacionFavoritos(icon = Icons.Default.Map, label = "Mapa", onClick = { navController.navigate("mapa_parque") })
+            ItemNavegacionFavoritos(icon = Icons.Default.Person, label = "Perfil", onClick = { navController.navigate("perfil") })
         }
     }
 }
 
 @Composable
-fun ItemMenu(icon: ImageVector, label: String, isSelected: Boolean = false) {
+fun ItemNavegacionFavoritos(
+    icon: ImageVector,
+    label: String,
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {}
+) {
     val color = if (isSelected) AccentGreen else Color.Gray
     val bgColor = if (isSelected) Color(0xFFE8F5E9) else Color.Transparent
 
@@ -258,7 +222,8 @@ fun ItemMenu(icon: ImageVector, label: String, isSelected: Boolean = false) {
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .background(bgColor)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .clickable { onClick() }
+            .padding(horizontal = 8.dp, vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

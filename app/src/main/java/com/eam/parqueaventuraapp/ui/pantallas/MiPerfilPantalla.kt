@@ -22,7 +22,6 @@ import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ConfirmationNumber
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Map
@@ -30,7 +29,6 @@ import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -55,7 +53,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
-import com.eam.parqueaventuraapp.ui.theme.LightGrayText
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
@@ -245,20 +242,20 @@ fun BarraNavegacionInferior(navController: NavController) {
                 onClick = { /* Navegar a inicio cuando creemos la pantalla */ }
             )
 
-            // Configuración para atracciones
+            // Configuración para ir a la pantalla de atracciones
             ItemNavegacion(
                 icon = Icons.Default.ConfirmationNumber,
                 label = "Atracciones",
                 onClick = { /* Navegar a Atracciones cuando creemos la pantalla */ }
             )
-            // Configuración para Favoritos
+            // Configuración para ir a la pantalla de Favoritos
             ItemNavegacion(
                 icon = Icons.Default.FavoriteBorder,
                 label = "Favoritos",
                 onClick = { navController.navigate("favoritos") }
             )
 
-            // Configuración para Mapa
+            // Configuración para ir a la pantalla Mapa del parque
             ItemNavegacion(
                 icon = Icons.Default.Map, 
                 label = "Mapa",
@@ -291,7 +288,7 @@ fun ItemNavegacion(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .background(bgColor)
-            // hacemos que el item sea cliclable y llamamos a la función onClick
+            // hacemos que el item pueda responder al clic y llamamos a la función onClick
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

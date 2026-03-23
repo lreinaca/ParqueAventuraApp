@@ -2,6 +2,7 @@ package com.eam.parqueaventuraapp.ui.pantallas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,7 +32,7 @@ import com.eam.parqueaventuraapp.ui.theme.AccentGreen
 fun PantallaMapaUsuario(navController: NavController) {
     Scaffold(
         bottomBar = {
-            BarraNavegacionMapa()
+            BarraNavegacionMapa(navController)
         }
     ) { innerPadding ->
         Column(
@@ -83,7 +84,7 @@ fun PantallaMapaUsuario(navController: NavController) {
                         pathEffect = pathEffect
                     )
 
-                    // Silueta verde del parque (Simulada con un arco o línea)
+                    // Silueta verde del parque
                     drawCircle(
                         color = AccentGreen.copy(alpha = 0.1f),
                         radius = 400f,
@@ -91,9 +92,8 @@ fun PantallaMapaUsuario(navController: NavController) {
                     )
                 }
 
-                // --- MARCADORES Y ETIQUETAS (Posiciones aproximadas a la imagen) ---
+                // --- MARCADORES ---
 
-                // Zona Extrema (Arriba Derecha)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.TopCenter).padding(top = 100.dp, start = 120.dp),
                     nombre = "Montaña Rusa E",
@@ -101,21 +101,18 @@ fun PantallaMapaUsuario(navController: NavController) {
                     zona = "Zona Extrema"
                 )
 
-                // Mundo Infantil (Centro)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.Center).padding(bottom = 60.dp, start = 40.dp),
                     nombre = "Mundo Infantil",
                     color = Color(0xFFFF9800)
                 )
 
-                // Carrusel Mágico (Centro Izquierda)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.CenterStart).padding(start = 60.dp, bottom = 20.dp),
                     nombre = "Carrusel Mágico",
                     color = Color(0xFFFF9800)
                 )
 
-                // Rio Salvaje (Abajo Centro)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.Center).padding(top = 180.dp),
                     nombre = "Rio Salvaje",
@@ -123,26 +120,23 @@ fun PantallaMapaUsuario(navController: NavController) {
                     zona = "Zona Familiar"
                 )
 
-                // Noria Panorámica (Abajo Derecha)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 220.dp, end = 50.dp),
                     nombre = "Noria Panorámica",
                     color = Color(0xFF42A5F5)
                 )
 
-                // Tirolesa Aventura (Abajo Izquierda)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.BottomStart).padding(bottom = 150.dp, start = 40.dp),
                     nombre = "Tirolesa Aventura",
                     color = Color(0xFFEF5350)
                 )
 
-                // Casa del Terror (Muy abajo)
                 MarcadorMapa(
                     modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 60.dp, end = 60.dp),
                     nombre = "Casa del Terror",
                     color = Color(0xFFEF5350),
-                    zona = "Zona Infantil" // Etiqueta naranja cerca
+                    zona = "Zona Infantil"
                 )
             }
         }
@@ -160,7 +154,6 @@ fun MarcadorMapa(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Etiqueta de Zona (Pill) opcional
         if (zona != null) {
             Surface(
                 color = color.copy(alpha = 0.2f),
@@ -177,7 +170,6 @@ fun MarcadorMapa(
             }
         }
 
-        // Icono de Marcador con efecto de elevación
         Surface(
             modifier = Modifier.size(32.dp),
             shape = CircleShape,
@@ -194,7 +186,6 @@ fun MarcadorMapa(
             }
         }
 
-        // Nombre del lugar
         Text(
             text = nombre,
             fontSize = 9.sp,
@@ -208,7 +199,7 @@ fun MarcadorMapa(
 }
 
 @Composable
-fun BarraNavegacionMapa() {
+fun BarraNavegacionMapa(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = Color.White,
@@ -221,17 +212,47 @@ fun BarraNavegacionMapa() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ItemMenuMapa(icon = Icons.Default.Home, label = "Inicio")
-            ItemMenuMapa(icon = Icons.Default.ConfirmationNumber, label = "Atracciones")
-            ItemMenuMapa(icon = Icons.Default.FavoriteBorder, label = "Favoritos")
-            ItemMenuMapa(icon = Icons.Default.Map, label = "Mapa", isSelected = true)
-            ItemMenuMapa(icon = Icons.Default.Person, label = "Perfil")
+            ItemNavegacionMapa(
+                icon = Icons.Default.Home,
+                label = "Inicio",
+                onClick = { /* Navegar a inicio si existe */ }
+            )
+
+            ItemNavegacionMapa(
+                icon = Icons.Default.ConfirmationNumber,
+                label = "Atracciones",
+                onClick = { /* Navegar a Atracciones */ }
+            )
+
+            ItemNavegacionMapa(
+                icon = Icons.Default.FavoriteBorder,
+                label = "Favoritos",
+                onClick = { navController.navigate("favoritos") }
+            )
+
+            ItemNavegacionMapa(
+                icon = Icons.Default.Map,
+                label = "Mapa",
+                isSelected = true,
+                onClick = { /* Ya estamos aquí */ }
+            )
+
+            ItemNavegacionMapa(
+                icon = Icons.Default.Person,
+                label = "Perfil",
+                onClick = { navController.navigate("perfil") }
+            )
         }
     }
 }
 
 @Composable
-fun ItemMenuMapa(icon: ImageVector, label: String, isSelected: Boolean = false) {
+fun ItemNavegacionMapa(
+    icon: ImageVector, 
+    label: String, 
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {}
+) {
     val color = if (isSelected) AccentGreen else Color.Gray
     val bgColor = if (isSelected) Color(0xFFE8F5E9) else Color.Transparent
 
@@ -239,6 +260,7 @@ fun ItemMenuMapa(icon: ImageVector, label: String, isSelected: Boolean = false) 
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .background(bgColor)
+            .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
