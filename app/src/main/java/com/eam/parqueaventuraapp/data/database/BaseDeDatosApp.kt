@@ -4,16 +4,25 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.eam.parqueaventuraapp.data.database.AtraccionDao
 import com.eam.parqueaventuraapp.data.modelo.Usuario
+import com.eam.parqueaventuraapp.data.modelo.Atraccion
 
 // Definimos la configuración de la base de datos: 
 // 1. 'entities' indica qué tablas contiene (en este caso, Usuario).
 // 2. 'version' se debe aumentar si cambias la estructura de las tablas en el futuro.
-@Database(entities = [Usuario::class], version = 1)
+@Database(
+    entities = [
+        Usuario::class,
+        Atraccion::class
+    ],
+    version = 1
+)
 abstract class BaseDeDatosApp : RoomDatabase() {
     
     // Método abstracto que Room implementará para darnos acceso a las consultas (DAO)
     abstract fun usuarioDao(): UsuarioDao
+    abstract fun atraccionDao(): AtraccionDao
 
     companion object {
         // '@Volatile' asegura que el valor de la instancia siempre esté actualizado para todos los hilos de ejecución
