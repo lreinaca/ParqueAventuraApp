@@ -1,4 +1,4 @@
-package com.eam.parqueaventuraapp.ui.pantallas
+package com.eam.parqueaventuraapp.ui.pantallas.admins
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

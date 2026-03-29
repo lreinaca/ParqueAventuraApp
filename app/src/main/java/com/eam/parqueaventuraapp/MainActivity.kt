@@ -14,11 +14,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.eam.parqueaventuraapp.data.modelo.database.BaseDeDatosApp
 import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
-import com.eam.parqueaventuraapp.ui.pantallas.AdminUsuariosPantalla
+import com.eam.parqueaventuraapp.ui.pantallas.admins.AdminUsuariosPantalla
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaLogin
-import com.eam.parqueaventuraapp.ui.pantallas.PantallaMapaUsuario
-import com.eam.parqueaventuraapp.ui.pantallas.PantallaMiPerfil
-import com.eam.parqueaventuraapp.ui.pantallas.PantallaMisFavoritos
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMapaUsuario
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMiPerfil
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMisFavoritos
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaRegistro
 import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel

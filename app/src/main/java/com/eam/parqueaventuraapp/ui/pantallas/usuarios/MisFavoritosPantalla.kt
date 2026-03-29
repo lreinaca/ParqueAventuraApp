@@ -1,4 +1,4 @@
-package com.eam.parqueaventuraapp.ui.pantallas
+package com.eam.parqueaventuraapp.ui.pantallas.usuarios
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

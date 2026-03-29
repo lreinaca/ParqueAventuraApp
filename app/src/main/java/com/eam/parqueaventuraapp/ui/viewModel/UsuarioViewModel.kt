@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.eam.parqueaventuraapp.data.modelo.Roles
 import com.eam.parqueaventuraapp.data.modelo.Usuario
 import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
 import kotlinx.coroutines.flow.Flow
@@ -23,12 +24,23 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
 
     fun registro(nombre: String, correo: String, clave: String) {
         viewModelScope.launch {
-            val nuevoUsuario = Usuario(
-                nombre = nombre,
-                correo = correo,
-                clave = clave
-            )
-            repositorio.insertar(nuevoUsuario)
+            val usuarioExistente = repositorio.buscarPorCorreo(correo)
+
+            if(usuarioExistente != null) { //si el usuario ya existe
+                _loginStatus.postValue(false) // No le permite porque ya hay un usuario con ese correo
+
+            }else{
+
+                val nuevoUsuario = Usuario(
+                    nombre = nombre,
+                    correo = correo,
+                    clave = clave,
+                    rol = Roles.USUARIO // Por defecto, el rol es "usuario"
+                )
+                repositorio.insertar(nuevoUsuario)
+
+            }
+
         }
     }
 

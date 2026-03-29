@@ -23,4 +23,12 @@ class UsuarioRepositorio(private val usuarioDao: UsuarioDao) {
     suspend fun login(correo: String, clave: String): Usuario? {
         return usuarioDao.login(correo, clave)
     }
+
+    suspend fun buscarPorId(id: Int): Usuario? {
+        return usuarioDao.buscarPorId(id)
+    }
+
+    suspend fun buscarPorCorreo(correo: String): Usuario? {
+        return usuarioDao.buscarPorCorreo(correo)
+    }
 }
