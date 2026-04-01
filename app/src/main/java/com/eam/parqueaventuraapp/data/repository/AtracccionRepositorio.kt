@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  *
  * ViewModel y la base de datos (DAO)
  */
-class AtracccionRepositorio (private val atraccionDao: AtraccionDao){
+class AtraccionRepositorio (private val atraccionDao: AtraccionDao){
 
     // Flujo que devuelve todas las atracciones
     val todasLasAtracciones: Flow<List<Atraccion>> = atraccionDao.obtenerTodas()

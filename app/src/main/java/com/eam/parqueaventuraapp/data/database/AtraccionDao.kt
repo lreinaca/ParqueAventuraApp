@@ -2,6 +2,7 @@ package com.eam.parqueaventuraapp.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.eam.parqueaventuraapp.data.modelo.Atraccion
@@ -20,7 +21,7 @@ interface AtraccionDao {
     * dentro de una corrutina porque acceder a la base de datos
     * puede tardar tiempo y no debe bloquear la interfaz.
     */
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertar(atraccion: Atraccion)
 
     /* Se usa Flow para que la lista se actualice automáticamente

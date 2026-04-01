@@ -41,7 +41,7 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
         if (loginStatus == true) {
             Toast.makeText(context, "¡Bienvenido de nuevo!", Toast.LENGTH_SHORT).show()
             // Si el login es exitoso, navegamos a la pantalla de perfil
-            navController.navigate("perfil") {
+            navController.navigate("inicioUsuario") {
                 // Borramos la pantalla de login del historial para que no se pueda volver atrás
                 popUpTo("login") { inclusive = true }
             }
