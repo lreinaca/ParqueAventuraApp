@@ -2,7 +2,6 @@ package com.eam.parqueaventuraapp.ui.pantallas.usuarios
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -34,7 +33,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,28 +51,19 @@ import coil.compose.AsyncImage
 import com.eam.parqueaventuraapp.R
 import com.eam.parqueaventuraapp.data.modelo.Atraccion
 import com.eam.parqueaventuraapp.ui.componentes.BarraNavegacionInferior
-import com.eam.parqueaventuraapp.ui.theme.ColorExtrema
-import com.eam.parqueaventuraapp.ui.theme.ColorFamiliar
-import com.eam.parqueaventuraapp.ui.theme.ColorInfantil
-import com.eam.parqueaventuraapp.ui.theme.FondoPantalla
-import com.eam.parqueaventuraapp.ui.theme.VerdeAccent
-import com.eam.parqueaventuraapp.ui.theme.VerdeClaro
-import com.eam.parqueaventuraapp.ui.theme.VerdeOscuro
+import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 // ===============================================================
-// FUNCIÓN PANTALLA PRINCIPAL
+// PANTALLA PRINCIPAL DE USUARIOS
 // =============================================================
 @Composable
-fun PantallaInicio(
-    navController: NavController,
-    usuarioViewModel: UsuarioViewModel,
-    atraccionViewModel: AtraccionViewModel
-) {
+fun PantallaInicio(navController: NavController, usuarioViewModel: UsuarioViewModel, atraccionViewModel: AtraccionViewModel) {
+
     // observeAsState() "escucha" el LiveData del ViewModel
-    val usuario by usuarioViewModel.usuarioActual.observeAsState()
-    val atracciones by atraccionViewModel.atracciones.observeAsState(emptyList())
+    val usuario by usuarioViewModel.usuarioActual.collectAsState()
+    val atracciones by atraccionViewModel.atracciones.collectAsState()
 
     // calculo de algunos datos para mostrar en la cabecera
     val totalAtracciones = atracciones.size
@@ -401,7 +390,6 @@ fun BadgeCategoria(tipo: String, modifier: Modifier = Modifier) {
         )
     }
 }
-
 
 // ============================================================
 // BADGE DE TIEMPO DE ESPERA (píldora verde con ícono de reloj)

@@ -40,8 +40,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,13 +52,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.eam.parqueaventuraapp.data.modelo.Roles
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
 fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) {
     // Observamos el usuario actual desde el ViewModel para mostrar su información real
-    val usuario by viewModel.usuarioActual.observeAsState()
+    val usuario by viewModel.usuarioActual.collectAsState()
     val scrollState = rememberScrollState()
 
     // Usamos Scaffold para añadir la barra de navegación inferior fácilmente
@@ -238,11 +239,10 @@ fun BarraNavegacionInferior(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Configuración para ir a la pantalla de inicio
             ItemNavegacionPerfil(
                 icon = Icons.Default.Home, 
                 label = "Inicio",
-                onClick = { /* Navegar a inicio cuando creemos la pantalla */ }
+                onClick = { /* Navegar a inicio */ }
             )
 
             // Configuración para ir a la pantalla de atracciones

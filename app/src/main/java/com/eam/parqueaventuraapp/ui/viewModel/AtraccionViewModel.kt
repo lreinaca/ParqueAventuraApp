@@ -4,18 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.eam.parqueaventuraapp.data.modelo.Atraccion
 import com.eam.parqueaventuraapp.data.repository.AtraccionRepositorio
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 
 class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewModel() {
 
-    // asLiveData() convierte el Flow del repositorio a LiveData.
-    // Así puedes observarlo con observeAsState() en Compose,
-    // igual que haces con loginStatus en PantallaLogin.
-    val atracciones: LiveData<List<Atraccion>> = repositorio.todasLasAtracciones.asLiveData()
+    // stateIn() convierte el Flow del repositorio a StateFlow
+    val atracciones: StateFlow<List<Atraccion>> = repositorio.todasLasAtracciones
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     // Estado para operaciones de escritura (insertar, actualizar, eliminar)
     private val _operacionExitosa = MutableLiveData<Boolean?>()
