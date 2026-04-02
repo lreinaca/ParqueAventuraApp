@@ -27,9 +27,9 @@ import com.eam.parqueaventuraapp.data.modelo.Atraccion
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.BadgeEstado
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.TarjetaContador
 import com.eam.parqueaventuraapp.ui.theme.*
+import androidx.compose.foundation.layout.IntrinsicSize
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
-import kotlin.collections.emptyList
 
 // ===============================================================
 // PANTALLA PANEL ADMINISTRADOR
@@ -127,10 +127,10 @@ fun CabeceraAdmin(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
             .background(
                 VerdeOscuro,
                 RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp))
+            .padding(20.dp)
     )
     {
         Column {
@@ -177,7 +177,7 @@ fun CabeceraAdmin(
             Spacer(modifier = Modifier.height(20.dp))
 
             //tarjeta de contadores (total atracciones y usuarios)
-            Row{
+            Row(modifier = Modifier.height(IntrinsicSize.Max)) {
                 TarjetaContadorAdmin(
                     icono = Icons.Default.LocalActivity,
                     valor = totalAtracciones.toString(),
@@ -251,6 +251,7 @@ fun FilaEstados(activas: Int, mantenimiento: Int, cerradas: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(IntrinsicSize.Max)
             .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
@@ -281,9 +282,9 @@ fun FilaEstados(activas: Int, mantenimiento: Int, cerradas: Int) {
 @Composable
 fun TarjetaEstado(valor: String, etiqueta: String, color: Color, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier,
-        shape    = RoundedCornerShape(12.dp),
-        colors   = CardDefaults.cardColors(containerColor = Color.White),
+        modifier = modifier.fillMaxHeight(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp) //sombra
     ) {
         Row(
@@ -370,10 +371,10 @@ fun BotonAccionRapida(
     onClick: () -> Unit
 ){
     Card(
-        onClick   = onClick,
-        modifier  = modifier.height(100.dp),
-        shape     = RoundedCornerShape(16.dp),
-        colors    = CardDefaults.cardColors(containerColor = color),
+        onClick = onClick,
+        modifier = modifier.height(100.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = color),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(

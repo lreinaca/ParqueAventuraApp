@@ -25,6 +25,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.eam.parqueaventuraapp.data.modelo.Roles
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
@@ -33,20 +34,26 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
     var clave by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-    // Observamos el estado del login para reaccionar cuando cambie
+    // Observamos el estado del login y el usuario actual
     val loginStatus by viewModel.loginStatus.observeAsState()
+    val usuarioActual by viewModel.usuarioActual.collectAsState()
 
     // Este bloque se ejecuta cada vez que loginStatus cambia su valor
     LaunchedEffect(loginStatus) {
-        if (loginStatus == true) {
-            Toast.makeText(context, "¡Bienvenido de nuevo!", Toast.LENGTH_SHORT).show()
-            // Si el login es exitoso, navegamos a la pantalla de perfil
-            navController.navigate("inicioUsuario") {
-                // Borramos la pantalla de login del historial para que no se pueda volver atrás
-                popUpTo("login") { inclusive = true }
+        if (loginStatus == true && usuarioActual != null) {
+            Toast.makeText(context, "¡Bienvenido de nuevo, ${usuarioActual?.nombre}!", Toast.LENGTH_SHORT).show()
+            
+            // Redirección basada en el ROL del usuario
+            if (usuarioActual?.rol == Roles.ADMIN) {
+                navController.navigate("panelAdmin") {
+                    popUpTo("login") { inclusive = true }
+                }
+            } else {
+                navController.navigate("inicioUsuario") {
+                    popUpTo("login") { inclusive = true }
+                }
             }
         } else if (loginStatus == false) {
-            // Si las credenciales son incorrectas, mostramos un error
             Toast.makeText(context, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
         }
     }
@@ -146,7 +153,6 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
 
                 Button(
                     onClick = { 
-                        // Llamamos a la función de login del ViewModel
                         viewModel.inicioSesion(correo, clave) 
                     },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
