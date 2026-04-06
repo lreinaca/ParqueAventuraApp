@@ -173,14 +173,18 @@ fun CabeceraHome(
                     // Círculo verde con ícono (logo simple)
                     Box(
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(50.dp)
                             .background(VerdeAccent, CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.img),
+                        AsyncImage(
+                            model = "https://res.cloudinary.com/djn8thk2s/image/upload/v1775453956/Logo_de_Parque_Aventura_xqo823.png",
                             contentDescription = "logo",
-                            modifier = Modifier.size(20.dp)
+                            contentScale = ContentScale.Crop, //ajusta el contenido para que ocupe todo el espacio
+
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(CircleShape) //recorta la imagen en forma de círculo
                         )
                     }
 

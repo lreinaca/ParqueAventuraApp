@@ -216,7 +216,7 @@ fun PantallaCrearAtraccion(navController: NavController, atraccionViewModel: Atr
                         duracion = duracion.toInt(),
                         tiempoEspera = tiempoEspera.toInt(),
                         estado = estadoSelected,
-                        imagen = imagen.trim().ifBlank { "https://picsum.photos/id/237/200/300"}
+                        imagen = imagen.trim().ifBlank { "https://res.cloudinary.com/djn8thk2s/image/upload/v1775453956/Logo_de_Parque_Aventura_xqo823.png"}
                     )
                     atraccionViewModel.insertar(nuevaAtraccion)
                 },
