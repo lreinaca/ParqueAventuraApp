@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,10 +25,14 @@ fun AdminUsuariosPantalla(navController: NavController, viewModel: UsuarioViewMo
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Administración de Usuarios") },
+                title = { Text("Administración de Usuarios", color = TextoPrincipal) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Volver",
+                            tint = TextoPrincipal
+                        )
                     }
                 }
             )
@@ -43,6 +48,7 @@ fun AdminUsuariosPantalla(navController: NavController, viewModel: UsuarioViewMo
                 text = "Lista de usuarios registrados:",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
+                color = TextoPrincipal,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -60,12 +66,19 @@ fun AdminUsuariosPantalla(navController: NavController, viewModel: UsuarioViewMo
                                 .padding(16.dp)
                                 .fillMaxWidth()
                         ) {
-                            Text(text = "Nombre: ${usuario.nombre}", fontWeight = FontWeight.Bold)
-                            Text(text = "Correo: ${usuario.correo}")
+                            Text(
+                                text = "Nombre: ${usuario.nombre}",
+                                fontWeight = FontWeight.Bold,
+                                color = TextoPrincipal
+                            )
+                            Text(
+                                text = "Correo: ${usuario.correo}",
+                                color = TextoSecundario
+                            )
                             Text(
                                 text = "ID Interno: ${usuario.id}",
                                 fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.secondary
+                                color = TextoSecundario
                             )
                         }
                     }
@@ -76,7 +89,7 @@ fun AdminUsuariosPantalla(navController: NavController, viewModel: UsuarioViewMo
                         Text(
                             text = "No hay usuarios registrados aún.",
                             modifier = Modifier.padding(16.dp),
-                            color = MaterialTheme.colorScheme.outline
+                            color = TextoSecundario
                         )
                     }
                 }

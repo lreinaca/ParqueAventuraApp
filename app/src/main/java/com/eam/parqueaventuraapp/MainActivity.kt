@@ -22,6 +22,7 @@ import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMiPerfil
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMisFavoritos
 import com.eam.parqueaventuraapp.ui.pantallas.PantallaRegistro
 import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaCrearAtraccion
+import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaEditarAtraccion
 import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaGestionAtracciones
 import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaInicioAdmin
 import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
@@ -70,6 +71,12 @@ class MainActivity : ComponentActivity() {
                         composable("panelAdmin"){ PantallaInicioAdmin(navController, userViewModel, atraccionViewModel) }
                         composable ("gestionAtracciones"){ PantallaGestionAtracciones(navController, atraccionViewModel) }
                         composable("crearAtraccion"){ PantallaCrearAtraccion(navController, atraccionViewModel) }
+
+                        composable( "editarAtraccion/{id}" ){ backStackEntry ->
+                            //pasamos el id como argumento
+                            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull()?: return@composable
+                            PantallaEditarAtraccion(navController, atraccionViewModel, atraccionId = id)
+                        }
                     }
                 }
             }

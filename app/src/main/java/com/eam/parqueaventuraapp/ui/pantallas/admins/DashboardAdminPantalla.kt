@@ -24,8 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.eam.parqueaventuraapp.data.modelo.Atraccion
-import com.eam.parqueaventuraapp.ui.pantallas.usuarios.BadgeEstado
-import com.eam.parqueaventuraapp.ui.pantallas.usuarios.TarjetaContador
 import com.eam.parqueaventuraapp.ui.theme.*
 import androidx.compose.foundation.layout.IntrinsicSize
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
@@ -69,6 +67,7 @@ fun PantallaInicioAdmin(
             item {
                 CabeceraAdmin(
                     navController = navController,
+                    usuarioViewModel = usuarioViewModel,
                     totalAtracciones = totalAtracciones,
                     totalUsuarios = totalUsuarios
                 )
@@ -87,6 +86,7 @@ fun PantallaInicioAdmin(
                     text = "Acciones rápidas",
                     fontWeight = FontWeight.Bold, //negrita
                     fontSize = 18.sp,
+                    color = TextoPrincipal,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
                 Spacer(modifier = Modifier.height(12.dp)) //espacio entre acciones rápidas y atracciones recientes
@@ -100,6 +100,7 @@ fun PantallaInicioAdmin(
                     text = "Atracciones recientes",
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
+                    color = TextoPrincipal,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -108,7 +109,7 @@ fun PantallaInicioAdmin(
             //lista de las últimas 3 atracciones creadas
             items(recientes) { atraccion ->
                 ItemAtraccionReciente(atraccion = atraccion) //cada atraccion es un item de la lista
-                Divider(modifier = Modifier.padding(horizontal = 20.dp)) //linea separadora entre atracciones
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp)) //linea separadora entre atracciones
             }
             item { Spacer(modifier = Modifier.height(20.dp)) } //espacio al final de la lista
         }
@@ -121,6 +122,7 @@ fun PantallaInicioAdmin(
 @Composable
 fun CabeceraAdmin(
     navController: NavController,
+    usuarioViewModel: UsuarioViewModel,
     totalAtracciones: Int,
     totalUsuarios: Int
 ){
@@ -148,7 +150,11 @@ fun CabeceraAdmin(
                     contentAlignment = Alignment.Center
                 ) {
                     IconButton(
-                        onClick = {navController.popBackStack()}, //vuelve a la pantalla anterior
+                        onClick = {
+                            usuarioViewModel.cerrarSesion()
+                            navController.navigate("login"){
+                            popUpTo(0) {inclusive = true } // 0 -> borra todas las pantallas de la pila
+                        } },
                         modifier = Modifier.size(36.dp)
                     ) {
                         Icon(
@@ -302,12 +308,13 @@ fun TarjetaEstado(valor: String, etiqueta: String, color: Color, modifier: Modif
                 Text(
                     text = valor,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
+                    color = TextoPrincipal
                 )
                 Text(
                     text = etiqueta,
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = TextoSecundario
                 )
             }
         }
@@ -327,18 +334,18 @@ fun SeccionAccionesRapidas(navController: NavController) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         BotonAccionRapida(
-            icono      = Icons.Default.Add,
-            etiqueta   = "Crear\nAtracción",
-            color      = Color(0xFF4CAF50), // Verde
-            modifier   = Modifier.weight(1f),
-            onClick    = { navController.navigate("crearAtraccion") }
+            icono = Icons.Default.Add,
+            etiqueta = "Crear\nAtracción",
+            color = Color(0xFF4CAF50), // Verde
+            modifier = Modifier.weight(1f),
+            onClick = { navController.navigate("crearAtraccion") }
         )
         BotonAccionRapida(
-            icono      = Icons.Default.List,
-            etiqueta   = "Gestionar\nAtracciones",
-            color      = Color(0xFF2196F3), // Azul
-            modifier   = Modifier.weight(1f),
-            onClick    = { navController.navigate("gestionAtracciones") }
+            icono = Icons.Default.List,
+            etiqueta = "Gestionar\nAtracciones",
+            color = Color(0xFF2196F3), // Azul
+            modifier = Modifier.weight(1f),
+            onClick = { navController.navigate("gestionAtracciones") }
         )
     }
 
@@ -351,11 +358,11 @@ fun SeccionAccionesRapidas(navController: NavController) {
             .padding(horizontal = 20.dp)
     ) {
         BotonAccionRapida(
-            icono      = Icons.Default.Group,
-            etiqueta   = "Gestionar\nUsuarios",
-            color      = Color(0xFFFF6B2B), // Naranja
-            modifier   = Modifier.weight(1f),
-            onClick    = { navController.navigate("gestionUsuarios") }
+            icono = Icons.Default.Group,
+            etiqueta = "Gestionar\nUsuarios",
+            color = Color(0xFFFF6B2B), // Naranja
+            modifier = Modifier.weight(1f),
+            onClick = { navController.navigate("admin_usuarios") }
         )
         // Este Spacer ocupa la otra mitad (derecha) dejando el botón a la izquierda
         Spacer(modifier = Modifier.weight(1f))
@@ -399,10 +406,10 @@ fun BotonAccionRapida(
                 )
             }
             Text(
-                text       = etiqueta,
-                color      = Color.White,
+                text = etiqueta,
+                color = Color.White,
                 fontWeight = FontWeight.Bold,
-                fontSize   = 14.sp
+                fontSize = 14.sp
             )
         }
     }
@@ -432,8 +439,8 @@ fun ItemAtraccionReciente(atraccion: Atraccion) {
 
         //Nombre y tiempo de espera
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = atraccion.nombre, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Text(text = "${atraccion.tiempoEspera} min de espera", fontSize = 12.sp, color = Color.Gray)
+            Text(text = atraccion.nombre, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = TextoPrincipal)
+            Text(text = "${atraccion.tiempoEspera} min de espera", fontSize = 12.sp, color = TextoSecundario)
         }
         BadgeEstadoAdmin(estado = atraccion.estado) //se muestra a la derecha
     }
@@ -446,7 +453,7 @@ fun BadgeEstadoAdmin(estado: String) {
         "ABIERTA" -> Triple("Activa", Color(0xFFE8F5E9), Color(0xFF2E7D32))
         "CERRADA" -> Triple("Cerrada", Color(0xFFFFEBEE), Color(0xFFC62828))
         "MANTENIMIENTO" -> Triple("Mantenimiento", Color(0xFFFFF8E1), Color(0xFFF57F17))
-        else -> Triple(estado, Color(0xFFF5F5F5), Color.Gray)
+        else -> Triple(estado, Color(0xFFF5F5F5), TextoSecundario)
     }
     Box(
         modifier = Modifier

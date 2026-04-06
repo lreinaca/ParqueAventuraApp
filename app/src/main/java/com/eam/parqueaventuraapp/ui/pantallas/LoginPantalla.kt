@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.data.modelo.Roles
+import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
@@ -60,7 +61,6 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
 
     val darkBg = Color(0xFF0D1B2A)
     val accentGreen = Color(0xFF1EF036)
-    val lightGrayText = Color(0xFF99A1AF)
 
     Column(
         modifier = Modifier
@@ -114,36 +114,36 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                     text = "¡Bienvenido!",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = TextoPrincipal
                 )
                 Text(
                     text = "Inicia sesión para continuar",
                     fontSize = 14.sp,
-                    color = lightGrayText
+                    color = TextoSecundario
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                Text("Correo electrónico", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text("Correo electrónico", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextoPrincipal)
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = correo,
                     onValueChange = { correo = it },
-                    placeholder = { Text("demo@aventurapark.com", color = lightGrayText) },
-                    leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = lightGrayText) },
+                    placeholder = { Text("demo@aventurapark.com", color = TextoSecundario) },
+                    leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = TextoSecundario) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text("Contraseña", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text("Contraseña", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextoPrincipal)
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = clave,
                     onValueChange = { clave = it },
-                    placeholder = { Text("demo123", color = lightGrayText) },
-                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = lightGrayText) },
+                    placeholder = { Text("demo123", color = TextoSecundario) },
+                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = TextoSecundario) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
@@ -172,7 +172,8 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                                 append("Regístrate")
                             }
                         },
-                        modifier = Modifier.clickable { navController.navigate("registro") }
+                        modifier = Modifier.clickable { navController.navigate("registro") },
+                        color = TextoSecundario
                     )
                 }
             }

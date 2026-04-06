@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
+import com.eam.parqueaventuraapp.ui.theme.*
 
 @Composable
 fun PantallaMapaUsuario(navController: NavController) {
@@ -47,12 +48,12 @@ fun PantallaMapaUsuario(navController: NavController) {
                 text = "Mapa del Parque",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = TextoPrincipal
             )
             Text(
                 text = "Toca un marcador para ver detalles",
                 fontSize = 14.sp,
-                color = Color.Gray
+                color = TextoSecundario
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -190,7 +191,7 @@ fun MarcadorMapa(
             text = nombre,
             fontSize = 9.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = TextoPrincipal,
             modifier = Modifier
                 .background(Color.White.copy(alpha = 0.8f), RoundedCornerShape(4.dp))
                 .padding(horizontal = 4.dp)
@@ -253,7 +254,7 @@ fun ItemNavegacionMapa(
     isSelected: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val color = if (isSelected) AccentGreen else Color.Gray
+    val color = if (isSelected) AccentGreen else TextoSecundario
     val bgColor = if (isSelected) Color(0xFFE8F5E9) else Color.Transparent
 
     Column(

@@ -1,7 +1,6 @@
 package com.eam.parqueaventuraapp.ui.pantallas.admins
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -26,78 +26,88 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.eam.parqueaventuraapp.data.modelo.Atraccion
-import com.eam.parqueaventuraapp.ui.theme.FondoPantalla
-import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 import com.eam.parqueaventuraapp.ui.theme.*
+import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 
-// =============================================================
-// PANTALLA AÑADIR NUEVAS ATRACCIONES
-// ==============================================================
 @Composable
-fun PantallaCrearAtraccion(navController: NavController, atraccionViewModel: AtraccionViewModel) {
-    //estado inicial de cada campo del formulario
-    //remember + matableStateOf = el valor se recuerda entre recomposiciones
-    var nombre by remember { mutableStateOf("") }
-    var tipoSelected by remember { mutableStateOf("familiar") } //por defecto está seleccionado "familiar"
-    var duracion by remember { mutableStateOf(5f) } //slider devuelve Float
-    var tiempoEspera by remember { mutableStateOf(15f) }
-    var estadoSelected by remember { mutableStateOf("ABIERTA") } //por defecto también
-    var imagen by remember { mutableStateOf("") }
+fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionViewModel, atraccionId: Int){
+    //obtenemos la lista y buscamos la atracción con el id
+    //firstOrNull devuelve null si no la encuentra
+    val atracciones by viewModel.atracciones.collectAsState()
+    val atraccion = atracciones.firstOrNull{it.id == atraccionId}
 
-    //observamos el resultado de la operación para ver si se guardó correctamente
-    val operacionExito by atraccionViewModel.operacionExitosa.observeAsState()
+    //mientras la atracción no cargue se muestra un indicador
+    if(atraccion == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = VerdeAccent)
+        }
+        return //salimos del composable y no se renderiza el formulario todavía
+    }
 
-    //launcherEffect se ejecuta cuando operaciónExito cambia
-    // si se guardó bien (con true) entonces nos devuelve a la pantalla anterior
+    //formulario con valores iniciales q vienen de la atracción existente
+    var nombre by remember { mutableStateOf(atraccion.nombre) }
+    var tipoSelected by remember { mutableStateOf(atraccion.tipo) }
+    var duracion by remember {mutableStateOf(atraccion.duracion.toFloat())}
+    var tiempoEspera by remember {mutableStateOf(atraccion.tiempoEspera.toFloat())}
+    var estadoSelected by remember { mutableStateOf(atraccion.estado) }
+    var imagen by remember { mutableStateOf(atraccion.imagen) }
+
+    //cuando la operación termina volvemos atrás (como en crearAtracciones)
+    val operacionExito by viewModel.operacionExitosa.observeAsState()
+
     LaunchedEffect(operacionExito) {
-        if (operacionExito == true) { //si se guardó
-            atraccionViewModel.resetOperacion() //limpiamos el estado
-            navController.popBackStack() //volvemos atrás
+        if (operacionExito == true){
+            viewModel.resetOperacion()
+            navController.popBackStack()
         }
     }
 
-    //el botón guardar solo se activa si el campo nombre no está vacío
+    // como en crear, no se puede guardar cambios si nombre está vacío
     val puedeGuardar = nombre.isNotBlank()
 
     Scaffold(
         topBar = {
-            BarraSuperiorCrear(onVolver = { navController.navigate("gestionAtracciones") })
+            BarraSuperiorEditar(
+                nombreAtraccion = atraccion.nombre,
+                onVolver = {navController.popBackStack()}
+            )
         }
     ) { padding ->
 
-        //columna con scroll vertical para que el formulario se vea en pantallas pequeñas
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(FondoPantalla)
                 .padding(padding)
-                .verticalScroll(rememberScrollState()) //scroll vertical
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp) //espacio entre elementos
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             // Nombre ---------------------------------------
             SeccionFormulario(titulo = "Nombre de la atracción") {
                 OutlinedTextField(
                     value = nombre,
                     onValueChange = { nombre = it },
-                    placeholder = { Text("Ej: Torre del Terror", color = TextoSecundario) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true //no permite saltos de linea, todo en una sola línea
@@ -113,9 +123,7 @@ fun PantallaCrearAtraccion(navController: NavController, atraccionViewModel: Atr
                         ChipSeleccion(
                             texto = tipo, //lo que muestra el chip
                             seleccionado = tipoSelected == tipo, //esto verifica si el chip está seleccionado
-                            onClick = {
-                                tipoSelected = tipo
-                            } //si se selecciona, actualiza la variable
+                            onClick = { tipoSelected = tipo } //si se selecciona, actualiza la variable
                         )
                     }
                 }
@@ -198,40 +206,39 @@ fun PantallaCrearAtraccion(navController: NavController, atraccionViewModel: Atr
                 OutlinedTextField(
                     value = imagen,
                     onValueChange = {imagen = it},
-                    placeholder = {Text("https://...", color = TextoSecundario)},
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true
                 )
             }
 
-            // Botón guardar -----------------------------------
+            // Botón de guardar ---------------------------------
             Button(
                 onClick = {
-                    //creamos el objeto atracción con los datos del formulario
-                    val nuevaAtraccion = Atraccion(
-                        id = 0, // Room lo genera automáticamente
+                    // Construimos la atracción actualizada
+                    // Usamos copy() para conservar el ID original y solo cambiar los campos editados
+                    val actualizada = atraccion.copy(
                         nombre = nombre.trim(),
                         tipo = tipoSelected,
                         duracion = duracion.toInt(),
                         tiempoEspera = tiempoEspera.toInt(),
                         estado = estadoSelected,
-                        imagen = imagen.trim().ifBlank { "https://picsum.photos/id/237/200/300"}
+                        imagen = imagen.trim().ifBlank { atraccion.imagen }
                     )
-                    atraccionViewModel.insertar(nuevaAtraccion)
+                    viewModel.actualizar(actualizada)
                 },
                 enabled = puedeGuardar,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
-                shape = RoundedCornerShape(12.dp), //redondeamos los bordes
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = VerdeAccent,
                     disabledContainerColor = VerdeAccent.copy(alpha = 0.4f)
                 )
             ) {
                 Text(
-                    text = "Guardar Atracción",
+                    text = "Guardar Cambios",
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = Color.White
@@ -242,12 +249,15 @@ fun PantallaCrearAtraccion(navController: NavController, atraccionViewModel: Atr
     }
 }
 
-// ===============================================================
-// BARRA SUPERIOR título + botón volver
-// =============================================================
+//=======================================================================
+// BARRA SUPERIOR -> muestra el nombre de la atracción como subtítulo
+//=====================================================================
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BarraSuperiorCrear(onVolver: () -> Unit) {
+fun BarraSuperiorEditar(
+    nombreAtraccion: String,
+    onVolver: () -> Unit
+) {
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = onVolver) {
@@ -261,13 +271,14 @@ fun BarraSuperiorCrear(onVolver: () -> Unit) {
         title = {
             Column {
                 Text(
-                    text = "Crear Atracción",
+                    text = "Editar Atracción",
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = TextoPrincipal
                 )
+                // El subtítulo muestra el nombre de la atracción que se está editando
                 Text(
-                    text = "Completa el formulario",
+                    text = nombreAtraccion,
                     fontSize = 13.sp,
                     color = TextoSecundario
                 )
@@ -275,80 +286,4 @@ fun BarraSuperiorCrear(onVolver: () -> Unit) {
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
     )
-}
-
-// ===============================================================
-//  CONTENEDOR DE SECCIÓN
-//=============================================================
-@Composable
-//se le puede pasar cualquier composable, esto evita repetir el título y espaciado en cada sección
-fun SeccionFormulario(titulo: String, contenido: @Composable () -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(
-            text = titulo,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 14.sp,
-            color = TextoPrincipal
-        )
-        contenido()
-    }
-}
-
-//==============================================================
-// CHIP DE SELECCIÓN DEL TIPO (familiar/extrema/infantil)
-// ===============================================================
-@Composable
-fun ChipSeleccion(texto: String, seleccionado: Boolean, onClick: () -> Unit) {
-    // Si está seleccionado: fondo verde + texto blanco.
-    // Si no: fondo blanco + borde gris + texto oscuro.
-    val fondo = if (seleccionado) VerdeAccent else Color.White
-    val colorTexto = if (seleccionado) Color.White else TextoPrincipal
-
-    Box(
-        modifier = Modifier
-            .border(
-                width = 1.5.dp,
-                color = if (seleccionado) VerdeAccent else BordeInactivo,
-                shape = RoundedCornerShape(20.dp)
-            )
-            .background(fondo, RoundedCornerShape(20.dp))
-    ) {
-        TextButton(onClick = onClick) {
-            Text(
-                text = texto,
-                color = colorTexto,
-                fontWeight = if (seleccionado) FontWeight.Bold else FontWeight.Normal,
-                fontSize = 14.sp
-            )
-        }
-    }
-}
-
-
-// ===============================================================
-// CHIP DE ESTADO (activa/mantenimiento/cerrada)
-// ===============================================================
-@Composable
-fun ChipEstado(texto: String, seleccionado: Boolean, colorActivo: Color, onClick: () -> Unit) {
-    val fondo = if (seleccionado) colorActivo else Color.White
-    val colorTexto = if (seleccionado) Color.White else TextoPrincipal
-
-    Box(
-        modifier = Modifier
-            .border(
-                width = 1.5.dp,
-                color = if (seleccionado) colorActivo else BordeInactivo,
-                shape = RoundedCornerShape(20.dp)
-            )
-            .background(fondo,RoundedCornerShape(20.dp))
-    ) {
-        TextButton(onClick = onClick) {
-            Text(
-                text = texto,
-                color = colorTexto,
-                fontWeight = if (seleccionado) FontWeight.Bold else FontWeight.Normal,
-                fontSize = 13.sp
-            )
-        }
-    }
 }

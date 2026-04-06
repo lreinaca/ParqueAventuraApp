@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
 import com.eam.parqueaventuraapp.ui.theme.LightGrayText
+import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
@@ -71,7 +72,8 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Regresar",
-                modifier = Modifier.size(28.dp)
+                modifier = Modifier.size(28.dp),
+                tint = TextoPrincipal
             )
         }
 
@@ -81,13 +83,13 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
             text = "Crear cuenta",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black
+            color = TextoPrincipal
         )
         
         Text(
             text = "Únete a la aventura hoy mismo",
             fontSize = 16.sp,
-            color = Color.Gray
+            color = TextoSecundario
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -97,18 +99,18 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
             text = "Nombre completo",
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
-            color = Color.Black
+            color = TextoPrincipal
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = nombre,
             onValueChange = { nombre = it },
-            placeholder = { Text("Tu nombre", color = LightGrayText) },
+            placeholder = { Text("Tu nombre", color = TextoSecundario) },
             leadingIcon = { 
                 Icon(
                     imageVector = Icons.Default.Person, 
                     contentDescription = null, 
-                    tint = LightGrayText,
+                    tint = TextoSecundario,
                     modifier = Modifier.size(20.dp)
                 ) 
             },
@@ -119,7 +121,9 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
                 focusedBorderColor = AccentGreen,
                 unfocusedBorderColor = Color(0xFFE5E7EB),
                 focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = TextoPrincipal,
+                unfocusedTextColor = TextoPrincipal
             )
         )
 
@@ -130,18 +134,18 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
             text = "Correo electrónico",
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
-            color = Color.Black
+            color = TextoPrincipal
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = correo,
             onValueChange = { correo = it },
-            placeholder = { Text("tu@email.com", color = LightGrayText) },
+            placeholder = { Text("tu@email.com", color = TextoSecundario) },
             leadingIcon = { 
                 Icon(
                     imageVector = Icons.Default.Email, 
                     contentDescription = null, 
-                    tint = LightGrayText,
+                    tint = TextoSecundario,
                     modifier = Modifier.size(20.dp)
                 ) 
             },
@@ -152,7 +156,9 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
                 focusedBorderColor = AccentGreen,
                 unfocusedBorderColor = Color(0xFFE5E7EB),
                 focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = TextoPrincipal,
+                unfocusedTextColor = TextoPrincipal
             )
         )
 
@@ -163,18 +169,18 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
             text = "Contraseña",
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
-            color = Color.Black
+            color = TextoPrincipal
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = clave,
             onValueChange = { clave = it },
-            placeholder = { Text("Mínimo 6 caracteres", color = LightGrayText) },
+            placeholder = { Text("Mínimo 6 caracteres", color = TextoSecundario) },
             leadingIcon = { 
                 Icon(
                     imageVector = Icons.Default.Lock, 
                     contentDescription = null, 
-                    tint = LightGrayText,
+                    tint = TextoSecundario,
                     modifier = Modifier.size(20.dp)
                 ) 
             },
@@ -184,7 +190,7 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
                     Icon(
                         imageVector = imagen, 
                         contentDescription = null, 
-                        tint = LightGrayText,
+                        tint = TextoSecundario,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -197,7 +203,9 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
                 focusedBorderColor = AccentGreen,
                 unfocusedBorderColor = Color(0xFFE5E7EB),
                 focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = TextoPrincipal,
+                unfocusedTextColor = TextoPrincipal
             )
         )
 
@@ -238,7 +246,7 @@ fun PantallaRegistro(navController: NavController, viewModel: UsuarioViewModel) 
         ) {
             Text(
                 text = "¿Ya tienes cuenta? ",
-                color = Color.Gray,
+                color = TextoSecundario,
                 fontSize = 14.sp
             )
             Text(

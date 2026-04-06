@@ -242,7 +242,7 @@ fun BarraNavegacionInferior(navController: NavController) {
             ItemNavegacionPerfil(
                 icon = Icons.Default.Home, 
                 label = "Inicio",
-                onClick = { /* Navegar a inicio */ }
+                onClick = { navController.navigate("inicioUsuario") }
             )
 
             // Configuración para ir a la pantalla de atracciones

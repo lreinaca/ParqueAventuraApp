@@ -31,7 +31,7 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
     val usuarioActual: StateFlow<Usuario?> = _usuarioActual.asStateFlow()
 
     // loginStatus sigue siendo LiveData porque PantallaLogin lo usa
-    // con observeAsState(), y ese archivo no lo estamos migrando.
+    // con observeAsState(), y ese archivo no lo estamos migrando
     private val _loginStatus = MutableLiveData<Boolean?>()
     val loginStatus: LiveData<Boolean?> = _loginStatus
 

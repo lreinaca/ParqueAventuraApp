@@ -45,7 +45,7 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
         _operacionExitosa.postValue(null)
     }
 
-    // DATOS DE EJEMPLO ====================================
+    // DATO DE EJEMPLO ====================================
     init {
         insertarDatosEjemplo()
     }
@@ -55,57 +55,12 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
             repositorio.insertar(
                 Atraccion(
                     id = 1,
-                    nombre = "Montaña Rusa Jaguar",
-                    tipo = "extrema",
-                    duracion = 3,
-                    tiempoEspera = 25,
-                    estado = "ABIERTA",
-                    imagen = "https://picsum.photos/300/200"
-                )
-            )
-
-            repositorio.insertar(
-                Atraccion(
-                    id = 2,
-                    nombre = "Carrusel Mágico",
+                    nombre = "Carrusel Cascanuez",
                     tipo = "infantil",
-                    duracion = 4,
-                    tiempoEspera = 5,
+                    duracion = 5,
+                    tiempoEspera = 10,
                     estado = "ABIERTA",
-                    imagen = "https://picsum.photos/300/201"
-                )
-            )
-            repositorio.insertar(
-                Atraccion(
-                    id = 12,
-                    nombre = "Carrusel terror",
-                    tipo = "infantil",
-                    duracion = 4,
-                    tiempoEspera = 5,
-                    estado = "ABIERTA",
-                    imagen = "https://picsum.photos/300/201"
-                )
-            )
-            repositorio.insertar(
-                Atraccion(
-                    id = 21,
-                    nombre = "Carrusel arcoiris",
-                    tipo = "infantil",
-                    duracion = 4,
-                    tiempoEspera = 5,
-                    estado = "ABIERTA",
-                    imagen = "https://picsum.photos/300/201"
-                )
-            )
-            repositorio.insertar(
-                Atraccion(
-                    id = 20,
-                    nombre = "montaña rusa",
-                    tipo = "familiar",
-                    duracion = 4,
-                    tiempoEspera = 5,
-                    estado = "ABIERTA",
-                    imagen = "https://picsum.photos/300/201"
+                    imagen = "https://images.pexels.com/photos/13206487/pexels-photo-13206487.jpeg"
                 )
             )
         }

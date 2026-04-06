@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.ui.theme.*
-import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.eam.parqueaventuraapp.data.modelo.Atraccion
+import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 
 // ============================================================
 // PANTALLA GESTIÓN DE ATRACCIONES (para administradores)
@@ -61,7 +61,7 @@ fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel:
         topBar = {
             BarraSuperiorAtracciones(
                 totalAtracciones = atracciones.size,
-                onVolver = {navController.popBackStack()},
+                onVolver = {navController.navigate("panelAdmin")},
                 onCrear = {navController.navigate("crearAtraccion")}
             )
         }
@@ -73,7 +73,7 @@ fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel:
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center //centrado
             ) {
-                Text(text = "No hay atracciones registradas aún", color = Color.Gray)
+                Text(text = "No hay atracciones registradas aún", color = TextoSecundario)
             }
         } else {
             LazyColumn(
@@ -113,7 +113,8 @@ fun BarraSuperiorAtracciones(
             IconButton(onClick = onVolver) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Volver"
+                    contentDescription = "Volver",
+                    tint = TextoPrincipal
                 )
             }
         },
@@ -124,12 +125,13 @@ fun BarraSuperiorAtracciones(
                 Text(
                     text = "Gestionar Atracciones",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
+                    color = TextoPrincipal
                 )
                 Text(
                     text = "$totalAtracciones atracciones",
                     fontSize = 13.sp,
-                    color = Color.Gray
+                    color = TextoSecundario
                 )
             }
         },
@@ -192,12 +194,13 @@ fun ItemAtraccionAdmin(
                 Text(
                     text = atraccion.nombre,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp
+                    fontSize = 15.sp,
+                    color = TextoPrincipal
                 )
                 Text(
                     text = "${atraccion.tipo} · ${atraccion.tiempoEspera} min espera", //concatena ambos datos
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = TextoSecundario
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -252,7 +255,7 @@ fun BadgeEstadoGestion(estado: String){
         "ABIERTA" -> Quad("Activa", Color(0xFFE8F5E9), Color(0xFF2E7D32), Color(0xFF4CAF50))
         "CERRADA" -> Quad("Cerrada", Color(0xFFFFEBEE), Color(0xFFC62828), Color(0xFFE53935))
         "MANTENIMIENTO" -> Quad("Mantenimiento", Color(0xFFFFF3E0), Color(0xFFE65100), Color(0xFFFF9800))
-        else -> Quad(estado, Color(0xFFF5F5F5), Color.Gray, Color.Gray)
+        else -> Quad(estado, Color(0xFFF5F5F5), TextoSecundario, TextoSecundario)
     }
 
     Row(
