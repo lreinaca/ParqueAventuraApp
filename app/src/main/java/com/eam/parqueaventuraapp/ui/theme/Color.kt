@@ -24,3 +24,8 @@ val FondoPantalla = Color(0xFFF4F4F4)
 val ColorInfantil = Color(0xFFFF6B2B)
 val ColorExtrema  = Color(0xFFE53935)
 val ColorFamiliar = Color(0xFF1565C0)
+
+// Colores de texto con buen contraste (no grises claros)
+val TextoPrincipal  = Color(0xFF1A1A1A)   // casi negro
+val TextoSecundario = Color(0xFF444444)   // gris oscuro, legible
+val BordeInactivo   = Color(0xFFCCCCCC)

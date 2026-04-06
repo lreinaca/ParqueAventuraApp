@@ -338,7 +338,7 @@ fun SeccionAccionesRapidas(navController: NavController) {
             etiqueta   = "Gestionar\nAtracciones",
             color      = Color(0xFF2196F3), // Azul
             modifier   = Modifier.weight(1f),
-            onClick    = { navController.navigate("atracciones") }
+            onClick    = { navController.navigate("gestionAtracciones") }
         )
     }
 
