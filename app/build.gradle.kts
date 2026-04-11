@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.material.icons.extended)
 
     // Navegación
@@ -64,7 +64,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.room3.common.jvm)
-    implementation(libs.androidx.material3)
     ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
