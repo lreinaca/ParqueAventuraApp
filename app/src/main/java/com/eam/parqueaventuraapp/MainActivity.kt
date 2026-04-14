@@ -29,6 +29,8 @@ import com.eam.parqueaventuraapp.ui.theme.ParqueAventuraAppTheme
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModelFactory
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaInicio
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaDetalleAtraccion
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaCatalogoAtracciones
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModelFactory
 
@@ -68,9 +70,16 @@ class MainActivity : ComponentActivity() {
                         composable ("mapa_parque"){ PantallaMapaUsuario(navController) }
                         composable ("favoritos"){ PantallaMisFavoritos(navController,userViewModel) }
                         composable("inicioUsuario"){PantallaInicio(navController, userViewModel, atraccionViewModel)}
+                        composable("atracciones") { PantallaCatalogoAtracciones(navController, atraccionViewModel) }
                         composable("panelAdmin"){ PantallaInicioAdmin(navController, userViewModel, atraccionViewModel) }
                         composable ("gestionAtracciones"){ PantallaGestionAtracciones(navController, atraccionViewModel) }
                         composable("crearAtraccion"){ PantallaCrearAtraccion(navController, atraccionViewModel) }
+                        // ruta de detalle de atraccion (usuario)
+                        composable("detalle/{id}") { backStackEntry ->
+                            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: return@composable
+                            PantallaDetalleAtraccion(navController, atraccionViewModel, atraccionId = id)
+                        }
+
 
                         composable( "editarAtraccion/{id}" ){ backStackEntry ->
                             //pasamos el id como argumento

@@ -1,5 +1,6 @@
 package com.eam.parqueaventuraapp.ui.pantallas.usuarios
 
+import android.R.attr.onClick
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -62,7 +63,8 @@ fun PantallaMisFavoritos(navController: NavController, viewModel: UsuarioViewMod
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
-                    TarjetaAtraccionFavorita()
+                    TarjetaAtraccionFavorita(onClick = { navController.navigate("detalle/1") }
+                    )
                 }
             }
         }
@@ -70,8 +72,9 @@ fun PantallaMisFavoritos(navController: NavController, viewModel: UsuarioViewMod
 }
 
 @Composable
-fun TarjetaAtraccionFavorita() {
+fun TarjetaAtraccionFavorita(onClick: () -> Unit = {}) {
     Card(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 115.dp), // Altura mínima flexible
