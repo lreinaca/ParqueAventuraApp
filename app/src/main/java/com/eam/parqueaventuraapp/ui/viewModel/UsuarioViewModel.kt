@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.eam.parqueaventuraapp.data.modelo.Atraccion
 import com.eam.parqueaventuraapp.data.modelo.Roles
 import com.eam.parqueaventuraapp.data.modelo.Usuario
 import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
@@ -70,6 +71,24 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
     fun cerrarSesion() {
         _usuarioActual.value = null
         _loginStatus.postValue(false)
+    }
+
+    // ADMIN QUEMADO ====================================
+    init {
+        crearAdmin()
+    }
+    private fun crearAdmin(){
+        viewModelScope.launch {
+            repositorio.insertar(
+                Usuario(
+                    id = 0, //Room crea el id
+                    nombre = "Admin sistema",
+                    correo  = "admin@parque.com",
+                    clave = "admin123",
+                    rol = Roles.ADMIN
+                )
+            )
+        }
     }
 }
 

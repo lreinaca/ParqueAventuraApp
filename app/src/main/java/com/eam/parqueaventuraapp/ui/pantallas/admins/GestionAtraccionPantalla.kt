@@ -179,7 +179,7 @@ fun ItemAtraccionAdmin(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ){
-            //imagen de la atracción
+            //imagen de la atracción 
             AsyncImage(
                 model = atraccion.imagen,
                 contentDescription = atraccion.nombre,
