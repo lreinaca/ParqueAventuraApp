@@ -1,0 +1,77 @@
+[33mcommit e93769b17ca794e40a1849a5c75031506f0db09f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m)[m
+Author: Rossibel <ibarrarossibel@gmail.com>
+Date:   Thu Mar 26 01:32:20 2026 -0500
+
+    feat(data): implementar estructura de datos para atracciones (modelo, DAO y repositorio)
+
+[33mcommit c2883c48f9e190be51a171377a5c5f524f8c6e55[m[33m ([m[1;31morigin/develop[m[33m)[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Mon Mar 23 15:41:32 2026 -0500
+
+    funcionalidad para cerrar sesión desde pantalla mi perfil
+
+[33mcommit c1c20f2f643ea7f88c0d54736f7776936fca502e[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Mon Mar 23 15:29:32 2026 -0500
+
+    actualización de navegación entre pantallas
+
+[33mcommit 6bc53acf44da2cd22aad190b46fd7945252d1800[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Mon Mar 23 14:42:21 2026 -0500
+
+    creacion pantalla Mapa Usuario, actualización de barra inferior para navegar entre pantallas
+
+[33mcommit c1aa3d17679637e34daf980932b0ff5a499f95ae[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Mon Mar 23 13:30:01 2026 -0500
+
+    creacion pantalla favoritos
+
+[33mcommit 833d9340817415717b38077fc7cb7182a884d2d9[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Mon Mar 23 09:39:13 2026 -0500
+
+    creacion de pantalla mi perfil
+
+[33mcommit 2d4ac7ed92fb5947c6b1e5c14997fe95c2ecfb04[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sun Mar 22 20:53:50 2026 -0500
+
+    actualizacion diseño pantalla registro
+
+[33mcommit 72c09f703c235f218b8501767a01ecffeba3de7e[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sun Mar 22 19:47:36 2026 -0500
+
+    actualizacion estructura y modularizacion de diseño
+
+[33mcommit d1285c34521256bef48b4cbdfe833e3e9c9f0e0a[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sun Mar 22 16:43:33 2026 -0500
+
+    actualizacion pantalla Login
+
+[33mcommit b11cefb08dec1b33323b22b94253480dc0a608f2[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sat Mar 21 23:54:49 2026 -0500
+
+    Arreglo de configuración de Gradle, implementación de Room para Usuarios y creación de pantallas de Registro y Administración con Jetpack Navigation.
+
+[33mcommit d22d7c2473d04801a4668351afac96fe436ebeb4[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sat Mar 21 21:20:43 2026 -0500
+
+    actualiza dependecias para usar view model y crea modelo usuario
+
+[33mcommit 363dd25117a384463b0d883a594e1ad6ddaab3f8[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sat Mar 21 19:07:37 2026 -0500
+
+    configuracion de dependencias
+
+[33mcommit fdc9815f0ea1fc77a5fdbc805c7fd40e22004ebe[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: LorenaReina <lorenareina2016@gmail.com>
+Date:   Sat Mar 21 16:38:27 2026 -0500
+
+    commit inicial
