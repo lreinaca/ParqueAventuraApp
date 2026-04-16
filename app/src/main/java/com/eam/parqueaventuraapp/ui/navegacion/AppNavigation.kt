@@ -42,7 +42,10 @@ fun AppNavigation(
         composable("panelAdmin"){ PantallaInicioAdmin(navController, userViewModel, atraccionViewModel) }
         composable("gestionAtracciones"){ PantallaGestionAtracciones(navController, atraccionViewModel) }
         composable("crearAtraccion"){ PantallaCrearAtraccion(navController, atraccionViewModel) }
-        composable("atracciones"){PantallaCatalogoAtracciones(navController, atraccionViewModel)}
+
+        composable("atracciones") {
+            PantallaCatalogoAtracciones(navController, atraccionViewModel)
+        }
 
         composable("detalle/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: return@composable

@@ -2,17 +2,11 @@ package com.eam.parqueaventuraapp.ui.pantallas.usuarios
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ConfirmationNumber
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,11 +15,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.eam.parqueaventuraapp.ui.componentes.BarraNavegacionInferior
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
 import com.eam.parqueaventuraapp.ui.theme.*
 
@@ -33,7 +27,7 @@ import com.eam.parqueaventuraapp.ui.theme.*
 fun PantallaMapaUsuario(navController: NavController) {
     Scaffold(
         bottomBar = {
-            BarraNavegacionMapa(navController)
+            BarraNavegacionInferior(navController)
         }
     ) { innerPadding ->
         Column(
@@ -195,88 +189,6 @@ fun MarcadorMapa(
             modifier = Modifier
                 .background(Color.White.copy(alpha = 0.8f), RoundedCornerShape(4.dp))
                 .padding(horizontal = 4.dp)
-        )
-    }
-}
-
-@Composable
-fun BarraNavegacionMapa(navController: NavController) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = Color.White,
-        shadowElevation = 8.dp
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ItemNavegacionMapa(
-                icon = Icons.Default.Home,
-                label = "Inicio",
-                onClick = { /* Navegar a inicio si existe */ }
-            )
-
-            ItemNavegacionMapa(
-                icon = Icons.Default.ConfirmationNumber,
-                label = "Atracciones",
-                onClick = { /* Navegar a Atracciones */ }
-            )
-
-            ItemNavegacionMapa(
-                icon = Icons.Default.FavoriteBorder,
-                label = "Favoritos",
-                onClick = { navController.navigate("favoritos") }
-            )
-
-            ItemNavegacionMapa(
-                icon = Icons.Default.Map,
-                label = "Mapa",
-                isSelected = true,
-                onClick = { /* Ya estamos aquí */ }
-            )
-
-            ItemNavegacionMapa(
-                icon = Icons.Default.Person,
-                label = "Perfil",
-                onClick = { navController.navigate("perfil") }
-            )
-        }
-    }
-}
-
-@Composable
-fun ItemNavegacionMapa(
-    icon: ImageVector, 
-    label: String, 
-    isSelected: Boolean = false,
-    onClick: () -> Unit = {}
-) {
-    val color = if (isSelected) AccentGreen else TextoSecundario
-    val bgColor = if (isSelected) Color(0xFFE8F5E9) else Color.Transparent
-
-    Column(
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(bgColor)
-            .clickable { onClick() }
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = label,
-            tint = color,
-            modifier = Modifier.size(24.dp)
-        )
-        Text(
-            text = label,
-            fontSize = 10.sp,
-            color = color,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
         )
     }
 }

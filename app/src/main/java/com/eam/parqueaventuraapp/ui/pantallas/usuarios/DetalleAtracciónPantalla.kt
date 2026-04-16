@@ -457,4 +457,55 @@ fun TarjetaEstadistica(
     }
 }
 
+// BADGE DE CATEGORÍA (Infantil / Familiar / Extrema)
 
+@Composable
+fun BadgeCategoria(
+    tipo: String,
+    modifier: Modifier = Modifier
+) {
+    val colorFondo = when (tipo.lowercase()) {
+        "infantil" -> ColorInfantil
+        "familiar" -> ColorFamiliar
+        "extrema" -> ColorExtrema
+        else -> Color.Gray
+    }
+
+    Box(
+        modifier = modifier
+            .background(colorFondo, RoundedCornerShape(12.dp))
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+    ) {
+        Text(
+            text = tipo.replaceFirstChar { it.uppercase() },
+            color = Color.White,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+// BADGE DE ESTADO (Abierta / Cerrada / Mantenimiento)
+
+@Composable
+fun BadgeEstado(estado: String) {
+    val (texto, fondo, colorTexto) = when (estado.uppercase()) {
+        "ABIERTA" -> Triple("Abierta", Color(0xFFE8F5E9), Color(0xFF2E7D32))
+        "CERRADA" -> Triple("Cerrada", Color(0xFFFFEBEE), Color(0xFFC62828))
+        "MANTENIMIENTO" -> Triple("Mantenimiento", Color(0xFFFFF8E1), Color(0xFFF57F17))
+        else -> Triple(estado, Color(0xFFF5F5F5), TextoSecundario)
+    }
+
+    Box(
+        modifier = Modifier
+            .background(fondo, RoundedCornerShape(12.dp))
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+    ) {
+        Text(
+            text = texto,
+            color = colorTexto,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
