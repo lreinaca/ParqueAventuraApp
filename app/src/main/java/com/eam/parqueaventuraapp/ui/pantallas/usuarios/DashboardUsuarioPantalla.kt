@@ -176,6 +176,8 @@ fun ItemAtraccion(atraccion: Atraccion, onVerDetalle: () -> Unit) {
 // ===============================================================
 @Composable
 fun BadgeCategoria(tipo: String, modifier: Modifier = Modifier) {
+
+    // when = estructura de control equivalente a switch/case en Java
     val color = when (tipo.lowercase()) {
         "infantil" -> ColorInfantil
         "extrema" -> ColorExtrema
@@ -189,7 +191,7 @@ fun BadgeCategoria(tipo: String, modifier: Modifier = Modifier) {
             .padding(horizontal = 8.dp, vertical = 3.dp)
     ) {
         Text(
-            text = tipo.replaceFirstChar { it.uppercase() },
+            text = tipo.replaceFirstChar { it.uppercase() }, // primera letra en mayúscula
             color = Color.White,
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold
