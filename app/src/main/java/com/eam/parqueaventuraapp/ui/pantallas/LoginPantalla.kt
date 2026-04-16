@@ -31,20 +31,33 @@ import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
 fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
+    val context = LocalContext.current
+    
+    // Obtenemos las credenciales recordadas del ViewModel
+    val credenciales by viewModel.credencialesRecordadas.collectAsState()
+    
+    // Estados locales para los campos de texto
     var correo by remember { mutableStateOf("") }
     var clave by remember { mutableStateOf("") }
 
-    val context = LocalContext.current
-    // Observamos el estado del login y el usuario actual
+    // Paso 4: Cargar datos al iniciar invocando al ViewModel
+    LaunchedEffect(Unit) {
+        viewModel.cargarCredenciales(context)
+    }
+
+    // Actualizar campos cuando cambien las credenciales en el ViewModel
+    LaunchedEffect(credenciales) {
+        correo = credenciales.first
+        clave = credenciales.second
+    }
+
     val loginStatus by viewModel.loginStatus.observeAsState()
     val usuarioActual by viewModel.usuarioActual.collectAsState()
 
-    // Este bloque se ejecuta cada vez que loginStatus cambia su valor
     LaunchedEffect(loginStatus) {
         if (loginStatus == true && usuarioActual != null) {
             Toast.makeText(context, "¡Bienvenido de nuevo, ${usuarioActual?.nombre}!", Toast.LENGTH_SHORT).show()
             
-            // Redirección basada en el ROL del usuario
             if (usuarioActual?.rol == Roles.ADMIN) {
                 navController.navigate("panelAdmin") {
                     popUpTo("login") { inclusive = true }
@@ -153,7 +166,8 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
 
                 Button(
                     onClick = { 
-                        viewModel.inicioSesion(correo, clave) 
+                        // El ViewModel ahora maneja el login y el guardado de credenciales
+                        viewModel.inicioSesion(context, correo, clave)
                     },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = accentGreen),
