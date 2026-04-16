@@ -89,15 +89,17 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
 
     private fun crearAdmin(){
         viewModelScope.launch {
-            repositorio.insertar(
-                Usuario(
-                    id = 1, // ID fijo para el admin inicial
-                    nombre = "Admin sistema",
-                    correo  = "admin@parque.com",
-                    clave = "admin123",
-                    rol = Roles.ADMIN
+            val adminExistente = repositorio.buscarPorCorreo("admin@parque.com")
+            if (adminExistente == null) {
+                repositorio.insertar(
+                    Usuario(
+                        nombre = "Admin sistema",
+                        correo  = "admin@parque.com",
+                        clave = "admin123",
+                        rol = Roles.ADMIN
+                    )
                 )
-            )
+            }
         }
     }
 }
