@@ -27,7 +27,8 @@ data class Atraccion(
     /* Posibles valores:
     * - "ABIERTA"
     * - "CERRADA"
-    * - "MANTENIMIENTO" */
+    * - "MANTENIMIENTO"
+    * - "INACTIVA" */
     val estado: String,
 
     // Duración en minutos

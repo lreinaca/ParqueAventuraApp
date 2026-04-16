@@ -11,6 +11,8 @@ import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaCrearAtraccion
 import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaEditarAtraccion
 import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaGestionAtracciones
 import com.eam.parqueaventuraapp.ui.pantallas.admins.PantallaInicioAdmin
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaCatalogoAtracciones
+import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaDetalleAtraccion
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaInicio
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMapaUsuario
 import com.eam.parqueaventuraapp.ui.pantallas.usuarios.PantallaMiPerfil
@@ -40,6 +42,12 @@ fun AppNavigation(
         composable("panelAdmin"){ PantallaInicioAdmin(navController, userViewModel, atraccionViewModel) }
         composable("gestionAtracciones"){ PantallaGestionAtracciones(navController, atraccionViewModel) }
         composable("crearAtraccion"){ PantallaCrearAtraccion(navController, atraccionViewModel) }
+        composable("atracciones"){PantallaCatalogoAtracciones(navController, atraccionViewModel)}
+
+        composable("detalle/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: return@composable
+            PantallaDetalleAtraccion(navController, atraccionViewModel, atraccionId = id)
+        }
 
         composable("editarAtraccion/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: return@composable
