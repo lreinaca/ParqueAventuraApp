@@ -442,13 +442,13 @@ fun ItemAtraccionReciente(atraccion: Atraccion) {
             Text(text = atraccion.nombre, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = TextoPrincipal)
             Text(text = "${atraccion.tiempoEspera} min de espera", fontSize = 12.sp, color = TextoSecundario)
         }
-        BadgeEstadoAdmin(estado = atraccion.estado) //se muestra a la derecha
+        BadgeEstado(estado = atraccion.estado) //se muestra a la derecha
     }
 }
 
 // BADGE DE ESTADO (Activa / Cerrada / Mantenimiento)
 @Composable
-fun BadgeEstadoAdmin(estado: String) {
+fun BadgeEstado(estado: String) {
     val (texto, fondo, colorTexto) = when (estado.uppercase()) {
         "ABIERTA" -> Triple("Activa", Color(0xFFE8F5E9), Color(0xFF2E7D32))
         "CERRADA" -> Triple("Cerrada", Color(0xFFFFEBEE), Color(0xFFC62828))

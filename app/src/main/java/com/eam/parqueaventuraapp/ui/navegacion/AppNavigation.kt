@@ -36,7 +36,7 @@ fun AppNavigation(
         composable("registro") { PantallaRegistro(navController, userViewModel) }
         composable("perfil") { PantallaMiPerfil(navController, userViewModel) }
         composable("admin_usuarios") { AdminUsuariosPantalla(navController, userViewModel) }
-        composable("mapa_parque"){ PantallaMapaUsuario(navController) }
+        composable("mapa_parque"){ PantallaMapaUsuario(navController, atraccionViewModel) }
         composable("favoritos"){ PantallaMisFavoritos(navController, userViewModel) }
         composable("inicioUsuario"){ PantallaInicio(navController, userViewModel, atraccionViewModel) }
         composable("panelAdmin"){ PantallaInicioAdmin(navController, userViewModel, atraccionViewModel) }

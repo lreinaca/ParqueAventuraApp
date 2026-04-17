@@ -150,9 +150,94 @@ fun ItemAtraccion(atraccion: Atraccion, onVerDetalle: () -> Unit) {
                 modifier = Modifier.width(100.dp).fillMaxHeight().clip(RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp))
             )
             Column(modifier = Modifier.fillMaxSize().padding(12.dp)) {
-                Text(text = atraccion.nombre, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextoPrincipal)
-                Text(text = "${atraccion.tipo} • ${atraccion.tiempoEspera} min", fontSize = 13.sp, color = TextoSecundario)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = atraccion.nombre, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = TextoPrincipal)
+                    BadgeCategoria(tipo = atraccion.tipo)
+                }
+                
+                Spacer(modifier = Modifier.height(4.dp))
+                
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    BadgeTiempo(minutos = atraccion.tiempoEspera)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    BadgeEstado(estado = atraccion.estado)
+                }
             }
         }
+    }
+}
+
+// ===============================================================
+// BADGE DE CATEGORÍA (Infantil / Extrema / Familiar)
+// ===============================================================
+@Composable
+fun BadgeCategoria(tipo: String, modifier: Modifier = Modifier) {
+
+    // when = estructura de control equivalente a switch/case en Java
+    val color = when (tipo.lowercase()) {
+        "infantil" -> ColorInfantil
+        "extrema" -> ColorExtrema
+        "familiar" -> ColorFamiliar
+        else -> Color.Gray
+    }
+
+    Box(
+        modifier = modifier
+            .background(color, RoundedCornerShape(6.dp))
+            .padding(horizontal = 8.dp, vertical = 3.dp)
+    ) {
+        Text(
+            text = tipo.replaceFirstChar { it.uppercase() }, // primera letra en mayúscula
+            color = Color.White,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+// ============================================================
+// BADGE DE TIEMPO DE ESPERA (píldora verde con ícono de reloj)
+// ===============================================================
+@Composable
+fun BadgeTiempo(minutos: Int) {
+    Row(
+        modifier = Modifier
+            .background(Color(0xFFE8F5E9), RoundedCornerShape(20.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(text = "⏱", fontSize = 11.sp)
+        Text(
+            text = "$minutos min",
+            color = VerdeClaro,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+// ===============================================================
+// BADGE DE ESTADO (Activa / Cerrada / Mantenimiento)
+// ===================================================
+@Composable
+fun BadgeEstado(estado: String) {
+    val (texto, fondo, colorTexto) = when (estado.uppercase()) {
+        "ABIERTA" -> Triple("Activa", Color(0xFFE8F5E9), VerdeClaro)
+        "CERRADA" -> Triple("Cerrada", Color(0xFFFFEBEE), Color(0xFFC62828))
+        "MANTENIMIENTO" -> Triple("Mantenimiento", Color(0xFFFFF8E1), Color(0xFFF57F17))
+        else -> Triple(estado, Color(0xFFF5F5F5), Color.Gray)
+    }
+
+    Box(
+        modifier = Modifier
+            .background(fondo, RoundedCornerShape(20.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Text(text = texto, color = colorTexto, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
     }
 }
