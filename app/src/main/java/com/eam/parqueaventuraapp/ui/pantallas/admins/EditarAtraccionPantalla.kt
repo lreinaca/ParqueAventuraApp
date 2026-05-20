@@ -47,13 +47,10 @@ import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 
 @Composable
-fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionViewModel, atraccionId: Int){
-    //obtenemos la lista y buscamos la atracción con el id
-    //firstOrNull devuelve null si no la encuentra
+fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionViewModel, atraccionId: String){
     val atracciones by viewModel.atracciones.collectAsState()
     val atraccion = atracciones.firstOrNull{it.id == atraccionId}
 
-    //mientras la atracción no cargue se muestra un indicador
     if(atraccion == null) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -61,10 +58,9 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
         ) {
             CircularProgressIndicator(color = VerdeAccent)
         }
-        return //salimos del composable y no se renderiza el formulario todavía
+        return
     }
 
-    //formulario con valores iniciales q vienen de la atracción existente
     var nombre by remember { mutableStateOf(atraccion.nombre) }
     var tipoSelected by remember { mutableStateOf(atraccion.tipo) }
     var duracion by remember {mutableStateOf(atraccion.duracion.toFloat())}
@@ -72,7 +68,6 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
     var estadoSelected by remember { mutableStateOf(atraccion.estado) }
     var imagen by remember { mutableStateOf(atraccion.imagen) }
 
-    //cuando la operación termina volvemos atrás (como en crearAtracciones)
     val operacionExito by viewModel.operacionExitosa.observeAsState()
 
     LaunchedEffect(operacionExito) {
@@ -82,7 +77,6 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
         }
     }
 
-    // como en crear, no se puede guardar cambios si nombre está vacío
     val puedeGuardar = nombre.isNotBlank()
 
     Scaffold(
@@ -103,56 +97,41 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            // Nombre ---------------------------------------
             SeccionFormulario(titulo = "Nombre de la atracción") {
                 OutlinedTextField(
                     value = nombre,
                     onValueChange = { nombre = it },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
-                    singleLine = true //no permite saltos de linea, todo en una sola línea
+                    singleLine = true
                 )
             }
 
-            // Tipo de atracción ------------------------------
-            //tres botones de selección
             SeccionFormulario(titulo = "Tipo de atracción") {
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { //10dp de espacio entre elementos
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     listOf("familiar", "extrema", "infantil").forEach { tipo ->
-                        // luego de recorrer la lista crea un chip por cada tipo
                         ChipSeleccion(
-                            texto = tipo, //lo que muestra el chip
-                            seleccionado = tipoSelected == tipo, //esto verifica si el chip está seleccionado
-                            onClick = { tipoSelected = tipo } //si se selecciona, actualiza la variable
+                            texto = tipo,
+                            seleccionado = tipoSelected == tipo,
+                            onClick = { tipoSelected = tipo }
                         )
                     }
                 }
             }
 
-            // Duración del ciclo ------------------------------
             SeccionFormulario(titulo = "Duración del ciclo: ${duracion.toInt()} min") {
                 Slider(
                     value = duracion,
                     onValueChange = { duracion = it },
-                    valueRange = 1f..60f, //mínimo 1min y máximo 60min
+                    valueRange = 1f..60f,
                     modifier = Modifier.fillMaxWidth(),
                     colors = SliderDefaults.colors(
                         thumbColor = VerdeAccent,
                         activeTrackColor = VerdeAccent
                     )
                 )
-                //etiqueta de los extremos del slider
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween //espacio entre elementos
-                ) {
-                    Text("1 min", fontSize = 11.sp, color = TextoSecundario)
-                    Text("30 min", fontSize = 11.sp, color = TextoSecundario)
-                    Text("60 min", fontSize = 11.sp, color = TextoSecundario)
-                }
             }
 
-            // Tiempo de espera -----------------------------
             SeccionFormulario(titulo = "Tiempo de espera: ${tiempoEspera.toInt()} min") {
                 Slider(
                     value = tiempoEspera,
@@ -164,21 +143,10 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
                         activeTrackColor = VerdeAccent
                     )
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("0 min", fontSize = 11.sp, color = TextoSecundario)
-                    Text("30 min", fontSize = 11.sp, color = TextoSecundario)
-                    Text("60 min", fontSize = 11.sp, color = TextoSecundario)
-                }
             }
 
-            // Estado -------------------------------------
             SeccionFormulario(titulo = "Estado") {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-
-                    //cada opción tiene su propio color cuando está seleccionada
                     ChipEstado(
                         texto = "Abierta",
                         seleccionado = estadoSelected == "ABIERTA",
@@ -197,11 +165,9 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
                         colorActivo = Color(0xFFCD3735),
                         onClick = { estadoSelected = "CERRADA" }
                     )
-
                 }
             }
 
-            // URL de la imagen ---------------------------------
             SeccionFormulario(titulo = "URL de la imagen") {
                 OutlinedTextField(
                     value = imagen,
@@ -212,11 +178,8 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
                 )
             }
 
-            // Botón de guardar ---------------------------------
             Button(
                 onClick = {
-                    // Construimos la atracción actualizada
-                    // Usamos copy() para conservar el ID original y solo cambiar los campos editados
                     val actualizada = atraccion.copy(
                         nombre = nombre.trim(),
                         tipo = tipoSelected,
@@ -231,7 +194,7 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = VerdeAccent,
                     disabledContainerColor = VerdeAccent.copy(alpha = 0.4f)
@@ -249,9 +212,6 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
     }
 }
 
-//=======================================================================
-// BARRA SUPERIOR -> muestra el nombre de la atracción como subtítulo
-//=====================================================================
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarraSuperiorEditar(
@@ -276,7 +236,6 @@ fun BarraSuperiorEditar(
                     fontSize = 18.sp,
                     color = TextoPrincipal
                 )
-                // El subtítulo muestra el nombre de la atracción que se está editando
                 Text(
                     text = nombreAtraccion,
                     fontSize = 13.sp,

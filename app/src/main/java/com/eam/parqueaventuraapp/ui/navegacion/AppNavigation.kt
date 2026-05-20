@@ -31,7 +31,6 @@ fun AppNavigation(
         navController = navController,
         startDestination = "login"
     ){
-        // Definición de las rutas de navegación
         composable("login") { PantallaLogin(navController, userViewModel) }
         composable("registro") { PantallaRegistro(navController, userViewModel) }
         composable("perfil") { PantallaMiPerfil(navController, userViewModel) }
@@ -48,12 +47,12 @@ fun AppNavigation(
         }
 
         composable("detalle/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: return@composable
+            val id = backStackEntry.arguments?.getString("id") ?: return@composable
             PantallaDetalleAtraccion(navController, atraccionViewModel, atraccionId = id)
         }
 
         composable("editarAtraccion/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: return@composable
+            val id = backStackEntry.arguments?.getString("id") ?: return@composable
             PantallaEditarAtraccion(navController, atraccionViewModel, atraccionId = id)
         }
     }

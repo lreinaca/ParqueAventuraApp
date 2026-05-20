@@ -2,35 +2,34 @@ package com.eam.parqueaventuraapp.data.modelo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 /**
  * Esta clase representa una ATRACCIÓN dentro del parque.
  *
- * En Room, una clase con la anotación @Entity se convierte en una TABLA
- * dentro de la base de datos.
+ * @SerializedName asegura la compatibilidad con los campos de MockAPI.
  */
 @Entity(tableName = "atracciones")
 data class Atraccion(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    @SerializedName("id")
+    val id: String = "0",
 
+    @SerializedName("nombre")
     val nombre: String,
 
-    // Se guarda como String para simplificar la base de datos.
+    @SerializedName("tipo")
     val tipo: String,
 
+    @SerializedName("imagen")
     val imagen: String,
 
-    // Tiempo en minutos
+    @SerializedName("tiempoEspera")
     val tiempoEspera: Int,
 
-    /* Posibles valores:
-    * - "ABIERTA"
-    * - "CERRADA"
-    * - "MANTENIMIENTO"
-    * - "INACTIVA" */
+    @SerializedName("estado")
     val estado: String,
 
-    // Duración en minutos
+    @SerializedName("duracion")
     val duracion: Int
 )

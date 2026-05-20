@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -50,71 +49,24 @@ import com.eam.parqueaventuraapp.ui.componentes.BarraNavegacionInferior
 import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 
-
-// PANTALLA CATÁLOGO DE ATRACCIONES (USUARIO)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaCatalogoAtracciones(
     navController: NavController,
     atraccionViewModel: AtraccionViewModel
 ) {
-    // observamos las atracciones desde el viewmodel (se actualiza solo si el admin agrega nuevas)
-    val atracciones by atraccionViewModel.atracciones.collectAsState()
+    // 1. Obtenemos los estados directamente del ViewModel
+    val atraccionesFiltradas by atraccionViewModel.atraccionesFiltradas.collectAsState()
+    val textoBusqueda by atraccionViewModel.textoBusqueda.collectAsState()
+    val categoriaSeleccionada by atraccionViewModel.categoriaSeleccionada.collectAsState()
+    val estadoFiltro by atraccionViewModel.estadoFiltro.collectAsState()
+    val tiempoMaxEspera by atraccionViewModel.tiempoMaxEspera.collectAsState()
 
-    // estado del texto de busqueda
-    var textoBusqueda by remember { mutableStateOf("") }
-
-    // filtro seleccionado, por defecto mostramos todas
-    var filtroSeleccionado by remember { mutableStateOf("Todas") }
-
-    // lista de opciones para los chips de filtro
-    val opcionesFiltro = listOf("Todas", "Familiar", "Extrema", "Infantil")
-    // controla si el modal de filtros está visible o no
     var mostrarFiltros by remember { mutableStateOf(false) }
-
-    // filtros avanzados dentro del modal
-    var filtroEstado by remember { mutableStateOf("Todas") }
-    var filtroTiempoMax by remember { mutableStateOf(60f) } // maximo 60 min
-
-    // estado del BottomSheet (animación de apertura/cierre)
     val sheetState = rememberModalBottomSheetState()
-
-
-    // aca aplicamos los filtros sobre la lista original
-    // primero filtramos por categoria y luego por el texto de busqueda
-    val atraccionesFiltradas = atracciones.filter { atraccion ->
-
-        // si es "Todas" no filtra por tipo, si no compara con el tipo en minusculas
-        val cumpleFiltro = if (filtroSeleccionado == "Todas") {
-            true
-        } else {
-            atraccion.tipo.lowercase() == filtroSeleccionado.lowercase()
-        }
-
-        // verificamos si el nombre contiene el texto que escribió el usuario
-        val cumpleBusqueda = if (textoBusqueda.isBlank()) {
-            true
-        } else {
-            atraccion.nombre.lowercase().contains(textoBusqueda.lowercase())
-        }
-
-        // filtro por estado (viene del modal)
-        val cumpleEstado = if (filtroEstado == "Todas") {
-            true
-        } else {
-            atraccion.estado.uppercase() == filtroEstado.uppercase()
-        }
-
-        // filtro por tiempo maximo de espera (viene del modal)
-        val cumpleTiempo = atraccion.tiempoEspera <= filtroTiempoMax.toInt()
-
-        // solo pasan las que cumplen TODOS los filtros
-        cumpleFiltro && cumpleBusqueda && cumpleEstado && cumpleTiempo
-    }
+    val opcionesFiltro = listOf("Todas", "Familiar", "Extrema", "Infantil")
 
     // MODAL DE FILTROS AVANZADOS (BottomSheet)
-
     if (mostrarFiltros) {
         ModalBottomSheet(
             onDismissRequest = { mostrarFiltros = false },
@@ -127,26 +79,20 @@ fun PantallaCatalogoAtracciones(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 16.dp)
             ) {
-                // titulo del modal
                 Text(
                     text = "Filtros avanzados",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = TextoPrincipal
                 )
-
                 Spacer(modifier = Modifier.height(8.dp))
-
                 Text(
                     text = "Ajusta los filtros para encontrar la atracción ideal",
                     fontSize = 13.sp,
                     color = TextoSecundario
                 )
-
                 Spacer(modifier = Modifier.height(20.dp))
-
                 HorizontalDivider(color = BordeInactivo, thickness = 0.5.dp)
-
                 Spacer(modifier = Modifier.height(20.dp))
 
                 // --- FILTRO POR ESTADO ---
@@ -156,16 +102,10 @@ fun PantallaCatalogoAtracciones(
                     fontSize = 14.sp,
                     color = TextoPrincipal
                 )
-
                 Spacer(modifier = Modifier.height(10.dp))
-
-                // chips de estado
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     val opcionesEstado = listOf("Todas", "ABIERTA", "CERRADA", "MANTENIMIENTO")
                     items(opcionesEstado) { opcion ->
-                        // texto legible para cada opcion
                         val textoVisible = when (opcion) {
                             "ABIERTA" -> "Activa"
                             "CERRADA" -> "Cerrada"
@@ -174,8 +114,8 @@ fun PantallaCatalogoAtracciones(
                         }
                         ChipFiltroCatalogo(
                             texto = textoVisible,
-                            seleccionado = filtroEstado == opcion,
-                            onClick = { filtroEstado = opcion }
+                            seleccionado = estadoFiltro == opcion,
+                            onClick = { atraccionViewModel.actualizarEstadoFiltro(opcion) }
                         )
                     }
                 }
@@ -184,18 +124,15 @@ fun PantallaCatalogoAtracciones(
 
                 // --- FILTRO POR TIEMPO DE ESPERA ---
                 Text(
-                    text = "Tiempo máximo de espera: ${filtroTiempoMax.toInt()} min",
+                    text = "Tiempo máximo de espera: ${tiempoMaxEspera.toInt()} min",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp,
                     color = TextoPrincipal
                 )
-
                 Spacer(modifier = Modifier.height(10.dp))
-
-                // slider para elegir el tiempo maximo
                 Slider(
-                    value = filtroTiempoMax,
-                    onValueChange = { filtroTiempoMax = it },
+                    value = tiempoMaxEspera,
+                    onValueChange = { atraccionViewModel.actualizarTiempoMax(it) },
                     valueRange = 5f..60f,
                     modifier = Modifier.fillMaxWidth(),
                     colors = SliderDefaults.colors(
@@ -203,8 +140,6 @@ fun PantallaCatalogoAtracciones(
                         activeTrackColor = VerdeAccent
                     )
                 )
-
-                // etiquetas del slider
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -215,17 +150,13 @@ fun PantallaCatalogoAtracciones(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
-
                 HorizontalDivider(color = BordeInactivo, thickness = 0.5.dp)
-
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- BOTONES DEL MODAL ---
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // boton para limpiar todos los filtros
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -233,24 +164,12 @@ fun PantallaCatalogoAtracciones(
                             .background(Color.White, RoundedCornerShape(12.dp))
                     ) {
                         TextButton(
-                            onClick = {
-                                // reseteamos los filtros a sus valores por defecto
-                                filtroEstado = "Todas"
-                                filtroTiempoMax = 60f
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
+                            onClick = { atraccionViewModel.resetFiltros() },
+                            modifier = Modifier.fillMaxWidth().height(48.dp)
                         ) {
-                            Text(
-                                text = "Limpiar",
-                                color = TextoPrincipal,
-                                fontWeight = FontWeight.SemiBold
-                            )
+                            Text(text = "Limpiar", color = TextoPrincipal, fontWeight = FontWeight.SemiBold)
                         }
                     }
-
-                    // boton para aplicar y cerrar el modal
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -258,33 +177,20 @@ fun PantallaCatalogoAtracciones(
                     ) {
                         TextButton(
                             onClick = { mostrarFiltros = false },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
+                            modifier = Modifier.fillMaxWidth().height(48.dp)
                         ) {
-                            Text(
-                                text = "Aplicar",
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold
-                            )
+                            Text(text = "Aplicar", color = Color.White, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
-
-                // espacio extra para que no quede pegado al borde inferior
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
 
-
     Scaffold(
-        bottomBar = {
-            // reutilizamos la barra de navegación que ya existe en componentes
-            BarraNavegacionInferior(navController)
-        }
+        bottomBar = { BarraNavegacionInferior(navController) }
     ) { padding ->
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -292,13 +198,8 @@ fun PantallaCatalogoAtracciones(
                 .padding(top = padding.calculateTopPadding()),
             contentPadding = PaddingValues(bottom = padding.calculateBottomPadding())
         ) {
-
-
-            // ENCABEZADO: TÍTULO DE LA PANTALLA
-
             item {
                 Spacer(modifier = Modifier.height(16.dp))
-
                 Text(
                     text = "Atracciones",
                     fontWeight = FontWeight.Bold,
@@ -306,40 +207,21 @@ fun PantallaCatalogoAtracciones(
                     color = TextoPrincipal,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
             }
-
-
-            // BARRA DE BÚSQUEDA
 
             item {
                 OutlinedTextField(
                     value = textoBusqueda,
-                    onValueChange = { textoBusqueda = it },
-                    placeholder = {
-                        Text("Buscar atracción...", color = TextoSecundario)
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Buscar",
-                            tint = TextoSecundario
-                        )
-                    },
+                    onValueChange = { atraccionViewModel.actualizarBusqueda(it) },
+                    placeholder = { Text("Buscar atracción...", color = TextoSecundario) },
+                    leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar", tint = TextoSecundario) },
                     trailingIcon = {
-                        // icono de filtro a la derecha como en la imagen
                         IconButton(onClick = { mostrarFiltros = true }) {
-                        Icon(
-                                imageVector = Icons.Default.Tune,
-                                contentDescription = "Filtros",
-                                tint = TextoSecundario
-                            )
+                            Icon(imageVector = Icons.Default.Tune, contentDescription = "Filtros", tint = TextoSecundario)
                         }
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                     shape = RoundedCornerShape(14.dp),
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
@@ -349,12 +231,8 @@ fun PantallaCatalogoAtracciones(
                         unfocusedBorderColor = BordeInactivo
                     )
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
             }
-
-
-            // FILA DE CHIPS DE FILTRO (Todas, Familiar, Extrema, Infantil)
 
             item {
                 LazyRow(
@@ -365,17 +243,13 @@ fun PantallaCatalogoAtracciones(
                     items(opcionesFiltro) { opcion ->
                         ChipFiltroCatalogo(
                             texto = opcion,
-                            seleccionado = filtroSeleccionado == opcion,
-                            onClick = { filtroSeleccionado = opcion }
+                            seleccionado = categoriaSeleccionada == opcion,
+                            onClick = { atraccionViewModel.actualizarCategoria(opcion) }
                         )
                     }
                 }
-
                 Spacer(modifier = Modifier.height(12.dp))
             }
-
-
-            // CONTADOR DE RESULTADOS
 
             item {
                 Text(
@@ -384,34 +258,17 @@ fun PantallaCatalogoAtracciones(
                     color = TextoSecundario,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-
-            // LISTA DE ATRACCIONES (reutilizamos ItemAtraccion del Dashboard)
-
             if (atraccionesFiltradas.isEmpty()) {
-                // si no hay resultados mostramos un mensaje
                 item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "No se encontraron atracciones",
-                            color = TextoSecundario,
-                            fontSize = 15.sp
-                        )
+                    Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                        Text(text = "No se encontraron atracciones", color = TextoSecundario, fontSize = 15.sp)
                     }
                 }
             } else {
-                // recorremos la lista filtrada y mostramos cada tarjeta
                 items(atraccionesFiltradas) { atraccion ->
-                    // reutilizamos ItemAtraccion que ya está en DashboardUsuarioPantalla
-                    // al hacer clic navega al detalle de esa atraccion
                     ItemAtraccion(
                         atraccion = atraccion,
                         onVerDetalle = { navController.navigate("detalle/${atraccion.id}") }
@@ -419,44 +276,22 @@ fun PantallaCatalogoAtracciones(
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
-
             item { Spacer(modifier = Modifier.height(8.dp)) }
         }
     }
 }
 
-
-
-// CHIP DE FILTRO PARA EL CATÁLOGO
-
 @Composable
-fun ChipFiltroCatalogo(
-    texto: String,
-    seleccionado: Boolean,
-    onClick: () -> Unit
-) {
-    // si está seleccionado el fondo es verde, si no es blanco con borde
+fun ChipFiltroCatalogo(texto: String, seleccionado: Boolean, onClick: () -> Unit) {
     val fondo = if (seleccionado) VerdeAccent else Color.White
     val colorTexto = if (seleccionado) Color.White else TextoPrincipal
-
     Box(
         modifier = Modifier
-            .border(
-                width = 1.dp,
-                color = if (seleccionado) VerdeAccent else BordeInactivo,
-                shape = RoundedCornerShape(20.dp)
-            )
+            .border(width = 1.dp, color = if (seleccionado) VerdeAccent else BordeInactivo, shape = RoundedCornerShape(20.dp))
             .background(fondo, RoundedCornerShape(20.dp))
     ) {
         TextButton(onClick = onClick) {
-            Text(
-                text = texto,
-                color = colorTexto,
-                fontWeight = if (seleccionado) FontWeight.Bold else FontWeight.Normal,
-                fontSize = 14.sp
-            )
+            Text(text = texto, color = colorTexto, fontWeight = if (seleccionado) FontWeight.Bold else FontWeight.Normal, fontSize = 14.sp)
         }
     }
 }
-
-
