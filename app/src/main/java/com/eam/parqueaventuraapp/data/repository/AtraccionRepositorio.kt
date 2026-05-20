@@ -12,12 +12,8 @@ class AtraccionRepositorio(private val apiService: AtraccionApiService) {
     val todasLasAtracciones: Flow<List<Atraccion>> = _atracciones.asStateFlow()
 
     suspend fun refrescarAtracciones() {
-        try {
-            val lista = apiService.obtenerAtracciones()
-            _atracciones.value = lista
-        } catch (e: Exception) {
-            // Manejar error de red
-        }
+        val lista = apiService.obtenerAtracciones()
+        _atracciones.value = lista
     }
 
     suspend fun insertar(atraccion: Atraccion) {
@@ -36,10 +32,6 @@ class AtraccionRepositorio(private val apiService: AtraccionApiService) {
     }
 
     suspend fun obtenerPorId(id: String): Atraccion? { // Cambiado a String
-        return try {
-             apiService.obtenerAtracciones().find { it.id == id }
-        } catch (e: Exception) {
-            null
-        }
+        return apiService.obtenerAtracciones().find { it.id == id }
     }
 }

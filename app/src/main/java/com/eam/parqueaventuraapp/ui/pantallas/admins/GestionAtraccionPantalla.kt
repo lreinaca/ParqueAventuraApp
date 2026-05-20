@@ -3,6 +3,7 @@ package com.eam.parqueaventuraapp.ui.pantallas.admins
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +27,10 @@ import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 
 @Composable
 fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel: AtraccionViewModel) {
+    LaunchedEffect(Unit) {
+        atraccionViewModel.refrescar()
+    }
+
     // CONSUMO DE ESTADOS YA FILTRADOS DESDE EL VIEWMODEL
     val uiState by atraccionViewModel.uiStateGestionAdmin.collectAsState()
     
@@ -34,6 +39,7 @@ fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel:
 
     var mostrarDialogo by remember { mutableStateOf(false) }
     var atraccionAInactivar by remember { mutableStateOf<Atraccion?>(null) }
+    val listState = rememberLazyListState()
 
     if (mostrarDialogo && atraccionAInactivar != null) {
         AlertDialog(
@@ -64,38 +70,58 @@ fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel:
             )
         }
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().background(FondoPantalla),
-            contentPadding = PaddingValues(top = padding.calculateTopPadding() + 12.dp, bottom = 12.dp)
-        ) {
-            item {
-                Text(text = "Atracciones en el Parque", modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp), fontWeight = FontWeight.Bold)
-            }
-            
-            items(atraccionesActivas) { atraccion ->
-                ItemAtraccionAdmin(
-                    atraccion = atraccion,
-                    onEditar = { navController.navigate("editarAtraccion/${atraccion.id}") },
-                    onInactivar = {
-                        atraccionAInactivar = atraccion
-                        mostrarDialogo = true
-                    }
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-            }
-
-            if (atraccionesInactivas.isNotEmpty()) {
+        Box(modifier = Modifier.fillMaxSize().background(FondoPantalla)) {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(top = padding.calculateTopPadding() + 12.dp, bottom = 18.dp)
+            ) {
                 item {
-                    Text(text = "Archivo (Inactivas)", modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp), fontWeight = FontWeight.Bold, color = TextoSecundario)
+                    Text(text = "Atracciones en el Parque", modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp), fontWeight = FontWeight.Bold)
                 }
-                items(atraccionesInactivas) { atraccion ->
+
+                items(atraccionesActivas) { atraccion ->
                     ItemAtraccionAdmin(
                         atraccion = atraccion,
                         onEditar = { navController.navigate("editarAtraccion/${atraccion.id}") },
-                        onInactivar = null
+                        onInactivar = {
+                            atraccionAInactivar = atraccion
+                            mostrarDialogo = true
+                        }
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                 }
+
+                if (atraccionesInactivas.isNotEmpty()) {
+                    item {
+                        Text(text = "Archivo (Inactivas)", modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp), fontWeight = FontWeight.Bold, color = TextoSecundario)
+                    }
+                    items(atraccionesInactivas) { atraccion ->
+                        ItemAtraccionAdmin(
+                            atraccion = atraccion,
+                            onEditar = { navController.navigate("editarAtraccion/${atraccion.id}") },
+                            onInactivar = null
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+                }
+            }
+
+            if (listState.canScrollForward || listState.canScrollBackward) {
+                val totalItems = listState.layoutInfo.totalItemsCount.coerceAtLeast(1)
+                val visibleItems = listState.layoutInfo.visibleItemsInfo.size.coerceAtLeast(1)
+                val maxFirstVisibleIndex = (totalItems - visibleItems).coerceAtLeast(1)
+                val progress = (listState.firstVisibleItemIndex.toFloat() / maxFirstVisibleIndex.toFloat()).coerceIn(0f, 1f)
+
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 4.dp)
+                        .height(48.dp)
+                        .offset(y = (progress * 140).dp)
+                        .width(3.dp)
+                        .background(VerdeAccent.copy(alpha = 0.5f), RoundedCornerShape(3.dp))
+                )
             }
         }
     }

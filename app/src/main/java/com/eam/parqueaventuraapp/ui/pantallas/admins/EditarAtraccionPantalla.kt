@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -48,15 +49,36 @@ import com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel
 
 @Composable
 fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionViewModel, atraccionId: String){
+    LaunchedEffect(Unit) {
+        viewModel.refrescar()
+    }
+
     val atracciones by viewModel.atracciones.collectAsState()
     val atraccion = atracciones.firstOrNull{it.id == atraccionId}
+    val mensajeOperacion by viewModel.mensajeOperacion.observeAsState()
 
     if(atraccion == null) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(color = VerdeAccent)
+        Scaffold(
+            topBar = {
+                BarraSuperiorEditar(
+                    nombreAtraccion = "No disponible",
+                    onVolver = { navController.popBackStack() }
+                )
+            }
+        ) { padding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(horizontal = 24.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "La atracción ya no existe en la API o no pudo cargarse.",
+                    color = TextoSecundario,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
         return
     }
@@ -207,6 +229,15 @@ fun PantallaEditarAtraccion(navController: NavController, viewModel: AtraccionVi
                     color = Color.White
                 )
             }
+
+            if (mensajeOperacion != null) {
+                Text(
+                    text = mensajeOperacion!!,
+                    color = Color(0xFFCD3735),
+                    fontSize = 13.sp
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
         }
     }

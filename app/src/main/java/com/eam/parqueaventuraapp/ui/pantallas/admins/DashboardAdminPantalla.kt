@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -32,6 +33,10 @@ fun PantallaInicioAdmin(
     usuarioViewModel: UsuarioViewModel,
     atraccionViewModel: AtraccionViewModel
 ){
+    LaunchedEffect(Unit) {
+        atraccionViewModel.refrescar()
+    }
+
     // CONSUMO DE DATOS PROCESADOS DESDE EL VIEWMODEL
     val estadisticas by atraccionViewModel.estadisticasAdmin.collectAsState()
     val usuarios by usuarioViewModel.usuarios.collectAsState()
@@ -99,7 +104,7 @@ fun CabeceraAdmin(navController: NavController, usuarioViewModel: UsuarioViewMod
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(modifier = Modifier.height(IntrinsicSize.Max)) {
-                TarjetaContadorAdmin(Icons.Default.LocalActivity, totalAtracciones.toString(), "Total\nAtracciones", Modifier.weight(1f))
+                TarjetaContadorAdmin(Icons.Default.LocalActivity, totalAtracciones.toString(), "Atracciones", Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(10.dp))
                 TarjetaContadorAdmin(Icons.Default.Group, totalUsuarios.toString(), "Usuarios", Modifier.weight(1f))
             }
@@ -136,7 +141,7 @@ fun TarjetaEstado(valor: String, etiqueta: String, color: Color, modifier: Modif
             Box(modifier = Modifier.size(10.dp).background(color, CircleShape))
             Column {
                 Text(valor, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = TextoPrincipal)
-                Text(etiqueta, fontSize = 11.sp, color = TextoSecundario)
+                Text(etiqueta, fontSize = 10.sp, color = TextoSecundario, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
     }
@@ -145,24 +150,24 @@ fun TarjetaEstado(valor: String, etiqueta: String, color: Color, modifier: Modif
 @Composable
 fun SeccionAccionesRapidas(navController: NavController) {
     Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        BotonAccionRapida(Icons.Default.Add, "Crear\nAtracción", Color(0xFF4CAF50), Modifier.weight(1f)) { navController.navigate("crearAtraccion") }
-        BotonAccionRapida(Icons.Default.List, "Gestionar\nAtracciones", Color(0xFF2196F3), Modifier.weight(1f)) { navController.navigate("gestionAtracciones") }
+        BotonAccionRapida(Icons.Default.Add, "Crear Atracción", Color(0xFF4CAF50), Modifier.weight(1f)) { navController.navigate("crearAtraccion") }
+        BotonAccionRapida(Icons.Default.List, "Gestionar Atracciones", Color(0xFF2196F3), Modifier.weight(1f)) { navController.navigate("gestionAtracciones") }
     }
     Spacer(modifier = Modifier.height(12.dp))
     Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
-        BotonAccionRapida(Icons.Default.Group, "Gestionar\nUsuarios", Color(0xFFFF6B2B), Modifier.weight(1f)) { navController.navigate("admin_usuarios") }
+        BotonAccionRapida(Icons.Default.Group, "Gestionar Usuarios", Color(0xFFFF6B2B), Modifier.weight(1f)) { navController.navigate("admin_usuarios") }
         Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
 fun BotonAccionRapida(icono: ImageVector, etiqueta: String, color: Color, modifier: Modifier = Modifier, onClick: () -> Unit){
-    Card(onClick = onClick, modifier = modifier.height(100.dp), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = color)) {
+    Card(onClick = onClick, modifier = modifier.height(118.dp), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = color)) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
             Box(modifier = Modifier.size(36.dp).background(Color.White.copy(alpha = 0.25f), CircleShape), contentAlignment = Alignment.Center){
                 Icon(icono, null, tint= Color.White, modifier = Modifier.size(20.dp))
             }
-            Text(etiqueta, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(etiqueta, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp, lineHeight = 16.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
     }
 }

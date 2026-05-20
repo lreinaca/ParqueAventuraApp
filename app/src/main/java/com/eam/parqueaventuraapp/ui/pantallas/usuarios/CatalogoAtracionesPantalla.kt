@@ -35,6 +35,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,6 +56,10 @@ fun PantallaCatalogoAtracciones(
     navController: NavController,
     atraccionViewModel: AtraccionViewModel
 ) {
+    LaunchedEffect(Unit) {
+        atraccionViewModel.refrescar()
+    }
+
     // 1. Obtenemos los estados directamente del ViewModel
     val atraccionesFiltradas by atraccionViewModel.atraccionesFiltradas.collectAsState()
     val textoBusqueda by atraccionViewModel.textoBusqueda.collectAsState()

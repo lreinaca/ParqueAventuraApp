@@ -116,13 +116,60 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
     val atracciones: StateFlow<List<Atraccion>> = repositorio.todasLasAtracciones.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     private val _operacionExitosa = MutableLiveData<Boolean?>()
     val operacionExitosa: LiveData<Boolean?> = _operacionExitosa
+    private val _mensajeOperacion = MutableLiveData<String?>()
+    val mensajeOperacion: LiveData<String?> = _mensajeOperacion
 
     init { refrescar() }
-    fun refrescar() { viewModelScope.launch { repositorio.refrescarAtracciones() } }
-    fun insertar(a: Atraccion) { viewModelScope.launch { try { repositorio.insertar(a); _operacionExitosa.postValue(true) } catch(e: Exception) { _operacionExitosa.postValue(false) } } }
-    fun actualizar(a: Atraccion) { viewModelScope.launch { try { repositorio.actualizar(a); _operacionExitosa.postValue(true) } catch(e: Exception) { _operacionExitosa.postValue(false) } } }
-    fun eliminar(id: String) { viewModelScope.launch { try { repositorio.eliminar(id); _operacionExitosa.postValue(true) } catch(e: Exception) { _operacionExitosa.postValue(false) } } }
-    fun resetOperacion() { _operacionExitosa.postValue(null) }
+    fun refrescar() {
+        viewModelScope.launch {
+            try {
+                repositorio.refrescarAtracciones()
+                _mensajeOperacion.postValue(null)
+            } catch (e: Exception) {
+                _mensajeOperacion.postValue("No se pudo sincronizar con la API")
+            }
+        }
+    }
+    fun insertar(a: Atraccion) {
+        viewModelScope.launch {
+            try {
+                repositorio.insertar(a)
+                _operacionExitosa.postValue(true)
+                _mensajeOperacion.postValue(null)
+            } catch (e: Exception) {
+                _operacionExitosa.postValue(false)
+                _mensajeOperacion.postValue("No se pudo crear la atracción en la API")
+            }
+        }
+    }
+    fun actualizar(a: Atraccion) {
+        viewModelScope.launch {
+            try {
+                repositorio.actualizar(a)
+                _operacionExitosa.postValue(true)
+                _mensajeOperacion.postValue(null)
+            } catch (e: Exception) {
+                _operacionExitosa.postValue(false)
+                _mensajeOperacion.postValue("No se pudo actualizar la atracción en la API")
+            }
+        }
+    }
+    fun eliminar(id: String) {
+        viewModelScope.launch {
+            try {
+                repositorio.eliminar(id)
+                _operacionExitosa.postValue(true)
+                _mensajeOperacion.postValue(null)
+            } catch (e: Exception) {
+                _operacionExitosa.postValue(false)
+                _mensajeOperacion.postValue("No se pudo inactivar la atracción en la API")
+            }
+        }
+    }
+    fun resetOperacion() {
+        _operacionExitosa.postValue(null)
+        _mensajeOperacion.postValue(null)
+    }
     fun actualizarBusqueda(t: String) { _textoBusqueda.value = t }
     fun actualizarCategoria(c: String) { _categoriaSeleccionada.value = c }
     fun actualizarEstadoFiltro(e: String) { _estadoFiltro.value = e }
