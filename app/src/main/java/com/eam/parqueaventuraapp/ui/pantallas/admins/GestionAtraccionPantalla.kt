@@ -37,7 +37,7 @@ fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel:
 
     if (mostrarDialogo && atraccionAInactivar != null) {
         AlertDialog(
-            onDismissRequest = { mostrarDialogo = false },
+            onDismissRequest = { mostrarDialogo = false }, // Cierra el diálogo al hacer clic fuera de él
             title = { Text(text = "Inactivar Atracción", fontWeight = FontWeight.Bold) },
             text = { Text(text = "¿Estás seguro de que deseas inactivar '${atraccionAInactivar?.nombre}'? Ya no será visible para los usuarios.") },
             confirmButton = {
@@ -65,7 +65,7 @@ fun PantallaGestionAtracciones(navController: NavController, atraccionViewModel:
         topBar = {
             BarraSuperiorAtracciones(
                 totalAtracciones = atraccionesActivas.size,
-                onVolver = { navController.popBackStack() },
+                onVolver = { navController.navigate("panelAdmin") },
                 onCrear = { navController.navigate("crearAtraccion") }
             )
         }
