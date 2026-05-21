@@ -16,7 +16,8 @@ import com.eam.parqueaventuraapp.data.modelo.Atraccion
         Usuario::class,
         Atraccion::class
     ],
-    version = 1
+    version = 2,
+    exportSchema = false
 )
 abstract class BaseDeDatosApp : RoomDatabase() {
     
@@ -39,7 +40,10 @@ abstract class BaseDeDatosApp : RoomDatabase() {
                     contexto.applicationContext,
                     BaseDeDatosApp::class.java,
                     "parque_aventura_db" // Nombre del archivo de la base de datos en el teléfono
-                ).build()
+                )
+                    // En desarrollo, evita el crash cuando cambia el esquema sin migraciones definidas.
+                    .fallbackToDestructiveMigration()
+                    .build()
                 
                 // Guardamos la instancia creada para reutilizarla después
                 INSTANCIA = instancia
