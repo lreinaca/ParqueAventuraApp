@@ -75,7 +75,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
     ksp(libs.androidx.room.compiler)
 
-    // Retrofit
+    // Retrofit + Gson (conversión JSON -> objetos)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 

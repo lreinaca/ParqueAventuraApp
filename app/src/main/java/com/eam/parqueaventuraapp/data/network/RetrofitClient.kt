@@ -10,7 +10,7 @@ object RetrofitClient {
     val apiService: AtraccionApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create()) //Gson conectado a Retrofit
             .build()
             .create(AtraccionApiService::class.java)
     }
