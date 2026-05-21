@@ -1,0 +1,242 @@
+Initialized native services in: /Users/lreinac/.gradle/native
+Initialized jansi services in: /Users/lreinac/.gradle/native
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'command '/usr/libexec/java_home''. Working directory: /Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp Command: /usr/libexec/java_home -V
+Successfully started process 'command '/usr/libexec/java_home''
+Starting process 'command '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm703480973532616330probe Command: /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Starting process 'command '/Users/lreinac/Library/Java/JavaVirtualMachines/ms-21.0.8/Contents/Home/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm8270314445854688243probe Command: /Users/lreinac/Library/Java/JavaVirtualMachines/ms-21.0.8/Contents/Home/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Starting process 'command '/Users/lreinac/Library/Java/JavaVirtualMachines/openjdk-23/Contents/Home/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm8713732985823628392probe Command: /Users/lreinac/Library/Java/JavaVirtualMachines/openjdk-23/Contents/Home/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Starting process 'command '/Users/lreinac/.sdkman/candidates/java/17.0.6-zulu/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm1070763417015972181probe Command: /Users/lreinac/.sdkman/candidates/java/17.0.6-zulu/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command '/Users/lreinac/Library/Java/JavaVirtualMachines/openjdk-23/Contents/Home/bin/java''
+Successfully started process 'command '/Users/lreinac/Library/Java/JavaVirtualMachines/ms-21.0.8/Contents/Home/bin/java''
+Successfully started process 'command '/Users/lreinac/.sdkman/candidates/java/17.0.6-zulu/bin/java''
+Successfully started process 'command '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java''
+Received JVM installation metadata from '/Users/lreinac/Library/Java/JavaVirtualMachines/openjdk-23/Contents/Home': {JAVA_HOME=/Users/lreinac/Library/Java/JavaVirtualMachines/openjdk-23/Contents/Home, JAVA_VERSION=23, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=23+37-2369, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=23+37-2369, VM_VENDOR=Oracle Corporation, OS_ARCH=aarch64}
+Received JVM installation metadata from '/Users/lreinac/.sdkman/candidates/java/17.0.6-zulu': {JAVA_HOME=/Users/lreinac/.sdkman/candidates/java/17.0.6-zulu/zulu-17.jdk/Contents/Home, JAVA_VERSION=17.0.6, JAVA_VENDOR=Azul Systems, Inc., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.6+10-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.6+10-LTS, VM_VENDOR=Azul Systems, Inc., OS_ARCH=aarch64}
+Received JVM installation metadata from '/Users/lreinac/Library/Java/JavaVirtualMachines/ms-21.0.8/Contents/Home': {JAVA_HOME=/Users/lreinac/Library/Java/JavaVirtualMachines/ms-21.0.8/Contents/Home, JAVA_VERSION=21.0.8, JAVA_VENDOR=Microsoft, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.8+9-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.8+9-LTS, VM_VENDOR=Microsoft, OS_ARCH=aarch64}
+Received JVM installation metadata from '/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/zulu-21.jdk/Contents/Home': {JAVA_HOME=/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/zulu-21.jdk/Contents/Home, JAVA_VERSION=21.0.3, JAVA_VENDOR=Azul Systems, Inc., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.3+9-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.3+9-LTS, VM_VENDOR=Azul Systems, Inc., OS_ARCH=aarch64}
+Starting process 'command '/Users/lreinac/Library/Java/JavaVirtualMachines/corretto-22.0.2/Contents/Home/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm10981527956170019546probe Command: /Users/lreinac/Library/Java/JavaVirtualMachines/corretto-22.0.2/Contents/Home/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Starting process 'command '/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm8368813103033940464probe Command: /Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command '/Users/lreinac/Library/Java/JavaVirtualMachines/corretto-22.0.2/Contents/Home/bin/java''
+Successfully started process 'command '/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/bin/java''
+Received JVM installation metadata from '/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu': {JAVA_HOME=/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/zulu-21.jdk/Contents/Home, JAVA_VERSION=21.0.3, JAVA_VENDOR=Azul Systems, Inc., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.3+9-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.3+9-LTS, VM_VENDOR=Azul Systems, Inc., OS_ARCH=aarch64}
+Received JVM installation metadata from '/Users/lreinac/Library/Java/JavaVirtualMachines/corretto-22.0.2/Contents/Home': {JAVA_HOME=/Users/lreinac/Library/Java/JavaVirtualMachines/corretto-22.0.2/Contents/Home, JAVA_VERSION=22.0.2, JAVA_VENDOR=Amazon.com Inc., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=22.0.2+9-FR, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=22.0.2+9-FR, VM_VENDOR=Amazon.com Inc., OS_ARCH=aarch64}
+Starting process 'command '/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm5892738118620433704probe Command: /Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command '/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home/bin/java''
+Received JVM installation metadata from '/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home': {JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home, JAVA_VERSION=21.0.3, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.3+9-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.3+9-LTS, VM_VENDOR=Eclipse Adoptium, OS_ARCH=aarch64}
+Received JVM installation metadata from '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home': {JAVA_HOME=/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home, JAVA_VERSION=1.8.0_491, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=1.8.0_491-b10, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=25.491-b10, VM_VENDOR=Oracle Corporation, OS_ARCH=x86_64}
+Starting process 'command '/Users/lreinac/.sdkman/candidates/java/21.0.4-tem/bin/java''. Working directory: /Users/lreinac/.gradle/.tmp/tmp-jvm16313367843941199442probe Command: /Users/lreinac/.sdkman/candidates/java/21.0.4-tem/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command '/Users/lreinac/.sdkman/candidates/java/21.0.4-tem/bin/java''
+Received JVM installation metadata from '/Users/lreinac/.sdkman/candidates/java/21.0.4-tem': {JAVA_HOME=/Users/lreinac/.sdkman/candidates/java/21.0.4-tem, JAVA_VERSION=21.0.4, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.4+7-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.4+7-LTS, VM_VENDOR=Eclipse Adoptium, OS_ARCH=aarch64}
+Starting process 'Gradle build daemon'. Working directory: /Users/lreinac/.gradle/daemon/9.2.1 Command: /Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/zulu-21.jdk/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -Xmx2048m -Dfile.encoding=UTF-8 -Duser.country=CO -Duser.language=en -Duser.variant -cp /Users/lreinac/.gradle/wrapper/dists/gradle-9.2.1-bin/2t0n5ozlw9xmuyvbp7dnzaxug/gradle-9.2.1/lib/gradle-daemon-main-9.2.1.jar -javaagent:/Users/lreinac/.gradle/wrapper/dists/gradle-9.2.1-bin/2t0n5ozlw9xmuyvbp7dnzaxug/gradle-9.2.1/lib/agents/gradle-instrumentation-agent-9.2.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.2.1
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 0.933 secs.
+The client will now receive all logging from the daemon (pid: 28240). The daemon log file: /Users/lreinac/.gradle/daemon/9.2.1/daemon-28240.out.log
+Daemon will be stopped at the end of the build 
+Using 8 worker leases.
+Operational build model parameters: {requiresToolingModels=false, parallelProjectExecution=false, configureOnDemand=false, configurationCache=false, configurationCacheParallelStore=false, configurationCacheParallelLoad=true, isolatedProjects=false, parallelProjectConfiguration=false, intermediateModelCache=false, parallelToolingApiActions=false, invalidateCoupledProjects=false, modelAsProjectDependency=false, resilientModelBuilding=false}
+Received JVM installation metadata from '/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/zulu-21.jdk/Contents/Home': {JAVA_HOME=/Users/lreinac/.sdkman/candidates/java/21.0.3-zulu/zulu-21.jdk/Contents/Home, JAVA_VERSION=21.0.3, JAVA_VENDOR=Azul Systems, Inc., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.3+9-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.3+9-LTS, VM_VENDOR=Azul Systems, Inc., OS_ARCH=aarch64}
+Watching the file system is configured to be enabled if available
+Now considering [/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp] as hierarchies to watch
+File system watching is active
+Starting Build
+Resolved plugin [id: 'org.gradle.toolchains.foojay-resolver-convention', version: '1.0.0']
+Settings evaluated using settings file '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/settings.gradle.kts'.
+Projects loaded. Root project using build file '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/build.gradle.kts'.
+Included projects: [root project 'ParqueAventuraApp', project ':app']
+
+> Configure project :
+Evaluating root project 'ParqueAventuraApp' using build file '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/build.gradle.kts'.
+Resolved plugin [id: 'com.android.application', version: '8.7.3', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '2.1.0', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.1.0', apply: false]
+Resolved plugin [id: 'com.google.devtools.ksp', version: '2.1.0-1.0.29', apply: false]
+
+> Configure project :app
+Evaluating project ':app' using build file '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/build.gradle.kts'.
+Resolved plugin [id: 'com.android.application', version: '8.7.3']
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '2.1.0']
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.1.0']
+Resolved plugin [id: 'com.google.devtools.ksp', version: '2.1.0-1.0.29']
+Using default execution profile
+Using Kotlin Gradle Plugin gradle85 variant
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+All projects evaluated.
+Task path ':app:mergeDebugJavaResource' matched project ':app'
+Task name matched 'mergeDebugJavaResource'
+Selected primary task 'mergeDebugJavaResource' from project :app
+Tasks to be executed: [task ':app:preBuild', task ':app:preDebugBuild', task ':app:checkKotlinGradlePluginConfigurationErrors', task ':app:checkDebugAarMetadata', task ':app:generateDebugResValues', task ':app:mapDebugSourceSetPaths', task ':app:generateDebugResources', task ':app:mergeDebugResources', task ':app:packageDebugResources', task ':app:parseDebugLocalResources', task ':app:createDebugCompatibleScreenManifests', task ':app:extractDeepLinksDebug', task ':app:processDebugMainManifest', task ':app:processDebugManifest', task ':app:processDebugManifestForPackage', task ':app:processDebugResources', task ':app:kspDebugKotlin', task ':app:compileDebugKotlin', task ':app:processDebugJavaRes', task ':app:mergeDebugJavaResource']
+Tasks that were excluded: []
+Resolve mutations for :app:preBuild (Thread[#82,Execution worker Thread 2,5,main]) started.
+:app:preBuild (Thread[#80,included builds,5,main]) started.
+
+> Task :app:preBuild UP-TO-DATE
+Skipping task ':app:preBuild' as it has no actions.
+Resolve mutations for :app:preDebugBuild (Thread[#80,included builds,5,main]) started.
+:app:preDebugBuild (Thread[#80,included builds,5,main]) started.
+
+> Task :app:preDebugBuild UP-TO-DATE
+Skipping task ':app:preDebugBuild' as it has no actions.
+Resolve mutations for :app:checkKotlinGradlePluginConfigurationErrors (Thread[#80,included builds,5,main]) started.
+:app:checkKotlinGradlePluginConfigurationErrors (Thread[#80,included builds,5,main]) started.
+
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+Skipping task ':app:checkKotlinGradlePluginConfigurationErrors' as task onlyIf 'errorDiagnostics are present' is false.
+Resolve mutations for :app:checkDebugAarMetadata (Thread[#80,included builds,5,main]) started.
+:app:checkDebugAarMetadata (Thread[#80,included builds,5,main]) started.
+
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+Caching disabled for task ':app:checkDebugAarMetadata' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:checkDebugAarMetadata' as it is up-to-date.
+Resolve mutations for :app:generateDebugResValues (Thread[#80,included builds,5,main]) started.
+:app:generateDebugResValues (Thread[#80,included builds,5,main]) started.
+
+> Task :app:generateDebugResValues UP-TO-DATE
+Caching disabled for task ':app:generateDebugResValues' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugResValues' as it is up-to-date.
+Resolve mutations for :app:mapDebugSourceSetPaths (Thread[#80,included builds,5,main]) started.
+:app:mapDebugSourceSetPaths (Thread[#80,included builds,5,main]) started.
+
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+Invalidating in-memory cache of /Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/.gradle/9.2.1/fileHashes/fileHashes.bin
+Invalidating in-memory cache of /Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/.gradle/9.2.1/fileHashes/resourceHashesCache.bin
+Caching disabled for task ':app:mapDebugSourceSetPaths' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:mapDebugSourceSetPaths' as it is up-to-date.
+Resolve mutations for :app:generateDebugResources (Thread[#80,included builds,5,main]) started.
+:app:generateDebugResources (Thread[#80,included builds,5,main]) started.
+
+> Task :app:generateDebugResources UP-TO-DATE
+Caching disabled for task ':app:generateDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugResources' as it is up-to-date.
+Resolve mutations for :app:mergeDebugResources (Thread[#80,included builds,5,main]) started.
+:app:mergeDebugResources (Thread[#80,included builds,5,main]) started.
+
+> Task :app:mergeDebugResources UP-TO-DATE
+Caching disabled for task ':app:mergeDebugResources' because:
+  Build cache is disabled
+  Gradle does not know how file 'build/intermediates/incremental/debug/mergeDebugResources/merged.dir/values-zu 2' was created (output property 'incrementalFolder'). Task output caching requires exclusive access to output paths to guarantee correctness (i.e. multiple tasks are not allowed to produce output in the same location).
+Skipping task ':app:mergeDebugResources' as it is up-to-date.
+Resolve mutations for :app:packageDebugResources (Thread[#80,included builds,5,main]) started.
+:app:packageDebugResources (Thread[#80,included builds,5,main]) started.
+
+> Task :app:packageDebugResources UP-TO-DATE
+Caching disabled for task ':app:packageDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:packageDebugResources' as it is up-to-date.
+Resolve mutations for :app:parseDebugLocalResources (Thread[#80,included builds,5,main]) started.
+:app:parseDebugLocalResources (Thread[#80,included builds,5,main]) started.
+
+> Task :app:parseDebugLocalResources UP-TO-DATE
+Caching disabled for task ':app:parseDebugLocalResources' because:
+  Build cache is disabled
+Skipping task ':app:parseDebugLocalResources' as it is up-to-date.
+Resolve mutations for :app:createDebugCompatibleScreenManifests (Thread[#80,included builds,5,main]) started.
+:app:createDebugCompatibleScreenManifests (Thread[#80,included builds,5,main]) started.
+
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+Caching disabled for task ':app:createDebugCompatibleScreenManifests' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:createDebugCompatibleScreenManifests' as it is up-to-date.
+Resolve mutations for :app:extractDeepLinksDebug (Thread[#80,included builds,5,main]) started.
+:app:extractDeepLinksDebug (Thread[#80,included builds,5,main]) started.
+
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+Caching disabled for task ':app:extractDeepLinksDebug' because:
+  Build cache is disabled
+Skipping task ':app:extractDeepLinksDebug' as it is up-to-date.
+Resolve mutations for :app:processDebugMainManifest (Thread[#80,included builds,5,main]) started.
+:app:processDebugMainManifest (Thread[#80,included builds,5,main]) started.
+
+> Task :app:processDebugMainManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugMainManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugMainManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifest (Thread[#80,included builds,5,main]) started.
+:app:processDebugManifest (Thread[#80,included builds,5,main]) started.
+
+> Task :app:processDebugManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugManifest' because:
+  Build cache is disabled
+  Gradle does not know how file 'build/intermediates/merged_manifests/debug/processDebugManifest/output-metadata 2.json' was created (output property 'multiApkManifestOutputDirectory'). Task output caching requires exclusive access to output paths to guarantee correctness (i.e. multiple tasks are not allowed to produce output in the same location).
+Skipping task ':app:processDebugManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifestForPackage (Thread[#80,included builds,5,main]) started.
+:app:processDebugManifestForPackage (Thread[#80,included builds,5,main]) started.
+
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+Custom actions are attached to task ':app:processDebugManifestForPackage'.
+Caching disabled for task ':app:processDebugManifestForPackage' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifestForPackage' as it is up-to-date.
+Resolve mutations for :app:processDebugResources (Thread[#80,included builds,5,main]) started.
+:app:processDebugResources (Thread[#80,included builds,5,main]) started.
+
+> Task :app:processDebugResources UP-TO-DATE
+Caching disabled for task ':app:processDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:processDebugResources' as it is up-to-date.
+Resolve mutations for :app:kspDebugKotlin (Thread[#80,included builds,5,main]) started.
+:app:kspDebugKotlin (Thread[#80,included builds,5,main]) started.
+
+> Task :app:kspDebugKotlin UP-TO-DATE
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/kotlin', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/java', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/main/kotlin', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/java', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/kotlin', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/java', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/main/kotlin', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/java', not found
+Caching disabled for task ':app:kspDebugKotlin' because:
+  Build cache is disabled
+Skipping task ':app:kspDebugKotlin' as it is up-to-date.
+Resolve mutations for :app:compileDebugKotlin (Thread[#80,included builds,5,main]) started.
+:app:compileDebugKotlin (Thread[#80,included builds,5,main]) started.
+
+> Task :app:compileDebugKotlin UP-TO-DATE
+Caching disabled for task ':app:compileDebugKotlin' because:
+  Build cache is disabled
+Skipping task ':app:compileDebugKotlin' as it is up-to-date.
+Resolve mutations for :app:processDebugJavaRes (Thread[#80,included builds,5,main]) started.
+:app:processDebugJavaRes (Thread[#80,included builds,5,main]) started.
+
+> Task :app:processDebugJavaRes UP-TO-DATE
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/main/resources', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/src/debug/resources', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/build/generated/ksp/debug/classes', not found
+file or directory '/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/app/build/generated/ksp/debug/classes', not found
+Caching disabled for task ':app:processDebugJavaRes' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:processDebugJavaRes' as it is up-to-date.
+Resolve mutations for :app:mergeDebugJavaResource (Thread[#80,included builds,5,main]) started.
+:app:mergeDebugJavaResource (Thread[#80,included builds,5,main]) started.
+
+> Task :app:mergeDebugJavaResource UP-TO-DATE
+Caching disabled for task ':app:mergeDebugJavaResource' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:mergeDebugJavaResource' as it is up-to-date.
+
+[Incubating] Problems report is available at: file:///Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 9s
+17 actionable tasks: 17 up-to-date
+Watched directory hierarchies: [/Users/lreinac/Documents/Programacion/DesarrolloAppsMoviles/TrabajoFinal/ParqueAventuraApp]
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html

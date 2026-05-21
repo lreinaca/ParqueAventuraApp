@@ -1,26 +1,19 @@
 package com.eam.parqueaventuraapp.ui.pantallas.usuarios
 
-import android.R.attr.onClick
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,14 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.R
-import com.eam.parqueaventuraapp.ui.theme.AccentGreen
+import com.eam.parqueaventuraapp.ui.componentes.BarraNavegacionInferior
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
 fun PantallaMisFavoritos(navController: NavController, viewModel: UsuarioViewModel) {
     Scaffold(
         bottomBar = {
-            BarraNavegacionFavoritos(navController)
+            BarraNavegacionInferior(navController)
         }
     ) { innerPadding ->
         Column(
@@ -185,62 +178,5 @@ fun TarjetaAtraccionFavorita(onClick: () -> Unit = {}) {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun BarraNavegacionFavoritos(navController: NavController) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = Color.White,
-        shadowElevation = 8.dp
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ItemNavegacionFavoritos(icon = Icons.Default.Home, label = "Inicio")
-            ItemNavegacionFavoritos(icon = Icons.Default.ConfirmationNumber, label = "Atracciones")
-            ItemNavegacionFavoritos(icon = Icons.Default.Favorite, label = "Favoritos", isSelected = true)
-            ItemNavegacionFavoritos(icon = Icons.Default.Map, label = "Mapa", onClick = { navController.navigate("mapa_parque") })
-            ItemNavegacionFavoritos(icon = Icons.Default.Person, label = "Perfil", onClick = { navController.navigate("perfil") })
-        }
-    }
-}
-
-@Composable
-fun ItemNavegacionFavoritos(
-    icon: ImageVector,
-    label: String,
-    isSelected: Boolean = false,
-    onClick: () -> Unit = {}
-) {
-    val color = if (isSelected) AccentGreen else Color.Gray
-    val bgColor = if (isSelected) Color(0xFFE8F5E9) else Color.Transparent
-
-    Column(
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(bgColor)
-            .clickable { onClick() }
-            .padding(horizontal = 8.dp, vertical = 6.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = label,
-            tint = color,
-            modifier = Modifier.size(24.dp)
-        )
-        Text(
-            text = label,
-            fontSize = 10.sp,
-            color = color,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-        )
     }
 }

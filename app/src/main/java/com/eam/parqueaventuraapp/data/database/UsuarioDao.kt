@@ -2,13 +2,14 @@ package com.eam.parqueaventuraapp.data.modelo.database
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.eam.parqueaventuraapp.data.modelo.Usuario
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UsuarioDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertar(usuario: Usuario)
 
     @Query("SELECT * FROM usuarios WHERE correo = :correo AND clave = :clave") // ":correo" por ejemplo, es un parametro

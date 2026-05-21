@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,50 +24,49 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.eam.parqueaventuraapp.data.modelo.Roles
 import com.eam.parqueaventuraapp.ui.theme.*
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
     val context = LocalContext.current
     
-    // Obtenemos las credenciales recordadas del ViewModel
+    // Obtenemos estados del ViewModel
     val credenciales by viewModel.credencialesRecordadas.collectAsState()
+    val errorMensaje by viewModel.errorMensaje.collectAsState()
+    val usuarioActual by viewModel.usuarioActual.collectAsState()
     
     // Estados locales para los campos de texto
     var correo by remember { mutableStateOf("") }
     var clave by remember { mutableStateOf("") }
 
-    // Paso 4: Cargar datos al iniciar invocando al ViewModel
+    // Cargar credenciales al iniciar
     LaunchedEffect(Unit) {
         viewModel.cargarCredenciales(context)
     }
 
-    // Actualizar campos cuando cambien las credenciales en el ViewModel
+    // Autocompletar campos
     LaunchedEffect(credenciales) {
         correo = credenciales.first
         clave = credenciales.second
     }
 
-    val loginStatus by viewModel.loginStatus.observeAsState()
-    val usuarioActual by viewModel.usuarioActual.collectAsState()
-
-    LaunchedEffect(loginStatus) {
-        if (loginStatus == true && usuarioActual != null) {
-            Toast.makeText(context, "¡Bienvenido de nuevo, ${usuarioActual?.nombre}!", Toast.LENGTH_SHORT).show()
-            
-            if (usuarioActual?.rol == Roles.ADMIN) {
-                navController.navigate("panelAdmin") {
-                    popUpTo("login") { inclusive = true }
-                }
-            } else {
-                navController.navigate("inicioUsuario") {
-                    popUpTo("login") { inclusive = true }
-                }
+    // Escuchar navegación desde el ViewModel
+    LaunchedEffect(Unit) {
+        viewModel.navegacionDestino.collectLatest { destino ->
+            Toast.makeText(context, "¡Bienvenido de nuevo, ${viewModel.usuarioActual.value?.nombre}!", Toast.LENGTH_SHORT).show()
+            navController.navigate(destino) {
+                popUpTo("login") { inclusive = true }
             }
-        } else if (loginStatus == false) {
-            Toast.makeText(context, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Escuchar errores
+    LaunchedEffect(errorMensaje) {
+        errorMensaje?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            viewModel.clearError()
         }
     }
 
@@ -145,7 +143,8 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                     placeholder = { Text("demo@aventurapark.com", color = TextoSecundario) },
                     leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = TextoSecundario) },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -159,16 +158,14 @@ fun PantallaLogin(navController: NavController, viewModel: UsuarioViewModel) {
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = TextoSecundario) },
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true
                 )
 
                 Spacer(modifier = Modifier.height(48.dp))
 
                 Button(
-                    onClick = { 
-                        // El ViewModel ahora maneja el login y el guardado de credenciales
-                        viewModel.inicioSesion(context, correo, clave)
-                    },
+                    onClick = { viewModel.inicioSesion(context, correo, clave) },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = accentGreen),
                     shape = RoundedCornerShape(12.dp)
