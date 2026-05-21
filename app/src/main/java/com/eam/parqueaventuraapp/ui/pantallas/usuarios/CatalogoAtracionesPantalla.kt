@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -70,6 +73,7 @@ fun PantallaCatalogoAtracciones(
     var mostrarFiltros by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val opcionesFiltro = listOf("Todas", "Familiar", "Extrema", "Infantil")
+    val listState = rememberLazyListState()
 
     // MODAL DE FILTROS AVANZADOS (BottomSheet)
     if (mostrarFiltros) {
@@ -196,92 +200,115 @@ fun PantallaCatalogoAtracciones(
     Scaffold(
         bottomBar = { BarraNavegacionInferior(navController) }
     ) { padding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(FondoPantalla)
-                .padding(top = padding.calculateTopPadding()),
-            contentPadding = PaddingValues(bottom = padding.calculateBottomPadding())
         ) {
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "Atracciones",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 26.sp,
-                    color = TextoPrincipal,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                OutlinedTextField(
-                    value = textoBusqueda,
-                    onValueChange = { atraccionViewModel.actualizarBusqueda(it) },
-                    placeholder = { Text("Buscar atracción...", color = TextoSecundario) },
-                    leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar", tint = TextoSecundario) },
-                    trailingIcon = {
-                        IconButton(onClick = { mostrarFiltros = true }) {
-                            Icon(imageVector = Icons.Default.Tune, contentDescription = "Filtros", tint = TextoSecundario)
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
-                    shape = RoundedCornerShape(14.dp),
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        focusedBorderColor = VerdeAccent,
-                        unfocusedBorderColor = BordeInactivo
-                    )
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(opcionesFiltro) { opcion ->
-                        ChipFiltroCatalogo(
-                            texto = opcion,
-                            seleccionado = categoriaSeleccionada == opcion,
-                            onClick = { atraccionViewModel.actualizarCategoria(opcion) }
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-
-            item {
-                Text(
-                    text = "${atraccionesFiltradas.size} atracciones encontradas",
-                    fontSize = 13.sp,
-                    color = TextoSecundario,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-
-            if (atraccionesFiltradas.isEmpty()) {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = padding.calculateTopPadding()),
+                contentPadding = PaddingValues(bottom = padding.calculateBottomPadding())
+            ) {
                 item {
-                    Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                        Text(text = "No se encontraron atracciones", color = TextoSecundario, fontSize = 15.sp)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Atracciones",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 26.sp,
+                        color = TextoPrincipal,
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                item {
+                    OutlinedTextField(
+                        value = textoBusqueda,
+                        onValueChange = { atraccionViewModel.actualizarBusqueda(it) },
+                        placeholder = { Text("Buscar atracción...", color = TextoSecundario) },
+                        leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar", tint = TextoSecundario) },
+                        trailingIcon = {
+                            IconButton(onClick = { mostrarFiltros = true }) {
+                                Icon(imageVector = Icons.Default.Tune, contentDescription = "Filtros", tint = TextoSecundario)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                        shape = RoundedCornerShape(14.dp),
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                            focusedBorderColor = VerdeAccent,
+                            unfocusedBorderColor = BordeInactivo
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                item {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(horizontal = 20.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(opcionesFiltro) { opcion ->
+                            ChipFiltroCatalogo(
+                                texto = opcion,
+                                seleccionado = categoriaSeleccionada == opcion,
+                                onClick = { atraccionViewModel.actualizarCategoria(opcion) }
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+
+                item {
+                    Text(
+                        text = "${atraccionesFiltradas.size} atracciones encontradas",
+                        fontSize = 13.sp,
+                        color = TextoSecundario,
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+
+                if (atraccionesFiltradas.isEmpty()) {
+                    item {
+                        Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                            Text(text = "No se encontraron atracciones", color = TextoSecundario, fontSize = 15.sp)
+                        }
+                    }
+                } else {
+                    items(atraccionesFiltradas) { atraccion ->
+                        ItemAtraccion(
+                            atraccion = atraccion,
+                            onVerDetalle = { navController.navigate("detalle/${atraccion.id}") }
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
-            } else {
-                items(atraccionesFiltradas) { atraccion ->
-                    ItemAtraccion(
-                        atraccion = atraccion,
-                        onVerDetalle = { navController.navigate("detalle/${atraccion.id}") }
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
+                item { Spacer(modifier = Modifier.height(8.dp)) }
             }
-            item { Spacer(modifier = Modifier.height(8.dp)) }
+
+            if (listState.canScrollForward || listState.canScrollBackward) {
+                val totalItems = listState.layoutInfo.totalItemsCount.coerceAtLeast(1)
+                val visibleItems = listState.layoutInfo.visibleItemsInfo.size.coerceAtLeast(1)
+                val maxFirstVisibleIndex = (totalItems - visibleItems).coerceAtLeast(1)
+                val progress = (listState.firstVisibleItemIndex.toFloat() / maxFirstVisibleIndex.toFloat()).coerceIn(0f, 1f)
+
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 4.dp)
+                        .height(48.dp)
+                        .offset(y = (progress * 140).dp)
+                        .width(3.dp)
+                        .background(VerdeAccent.copy(alpha = 0.5f), RoundedCornerShape(3.dp))
+                )
+            }
         }
     }
 }
