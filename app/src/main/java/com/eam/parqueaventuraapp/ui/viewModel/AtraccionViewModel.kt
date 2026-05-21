@@ -118,15 +118,19 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
     val operacionExitosa: LiveData<Boolean?> = _operacionExitosa
     private val _mensajeOperacion = MutableLiveData<String?>()
     val mensajeOperacion: LiveData<String?> = _mensajeOperacion
+    private val _cargando = MutableStateFlow(false)
+    val cargando = _cargando.asStateFlow()
 
     init { refrescar() }
     fun refrescar() {
         viewModelScope.launch {
+            _cargando.value = true // activa el spinner
             try {
                 repositorio.refrescarAtracciones()
-                _mensajeOperacion.postValue(null)
             } catch (e: Exception) {
                 _mensajeOperacion.postValue("No se pudo sincronizar con la API")
+            } finally {
+                _cargando.value = false // desactiva el spinner (siempre)
             }
         }
     }

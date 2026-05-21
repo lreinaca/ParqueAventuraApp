@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -32,6 +33,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -39,6 +42,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -69,7 +73,10 @@ fun PantallaCatalogoAtracciones(
     val categoriaSeleccionada by atraccionViewModel.categoriaSeleccionada.collectAsState()
     val estadoFiltro by atraccionViewModel.estadoFiltro.collectAsState()
     val tiempoMaxEspera by atraccionViewModel.tiempoMaxEspera.collectAsState()
+    val cargando by atraccionViewModel.cargando.collectAsState()
+    val mensajeError by atraccionViewModel.mensajeOperacion.observeAsState()
 
+    val snackbarHostState = remember { SnackbarHostState() }
     var mostrarFiltros by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val opcionesFiltro = listOf("Todas", "Familiar", "Extrema", "Infantil")
@@ -198,6 +205,7 @@ fun PantallaCatalogoAtracciones(
     }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = { BarraNavegacionInferior(navController) }
     ) { padding ->
         Box(
@@ -275,10 +283,16 @@ fun PantallaCatalogoAtracciones(
                     Spacer(modifier = Modifier.height(12.dp))
                 }
 
-                if (atraccionesFiltradas.isEmpty()) {
+                if (cargando) {
                     item {
                         Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                            Text(text = "No se encontraron atracciones", color = TextoSecundario, fontSize = 15.sp)
+                            CircularProgressIndicator() // el spinner
+                        }
+                    }
+                } else if (atraccionesFiltradas.isEmpty()) {
+                    item {
+                        Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                            Text(text = "No se encontraron atracciones", color = TextoSecundario)
                         }
                     }
                 } else {
@@ -309,6 +323,12 @@ fun PantallaCatalogoAtracciones(
                         .background(VerdeAccent.copy(alpha = 0.5f), RoundedCornerShape(3.dp))
                 )
             }
+        }
+    }
+    LaunchedEffect(mensajeError) {
+        if (mensajeError != null) {
+            snackbarHostState.showSnackbar(mensajeError!!)
+            atraccionViewModel.resetOperacion()
         }
     }
 }
