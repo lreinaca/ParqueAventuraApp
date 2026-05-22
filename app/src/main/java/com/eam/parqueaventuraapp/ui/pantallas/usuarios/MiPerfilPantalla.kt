@@ -42,6 +42,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,12 +59,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.eam.parqueaventuraapp.data.modelo.Roles
 import com.eam.parqueaventuraapp.ui.theme.AccentGreen
+import com.eam.parqueaventuraapp.ui.theme.TextoPrincipal
+import com.eam.parqueaventuraapp.ui.theme.TextoSecundario
 import com.eam.parqueaventuraapp.ui.viewModel.UsuarioViewModel
 
 @Composable
-fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) {
+fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel, atraccionViewModel: com.eam.parqueaventuraapp.ui.viewModel.AtraccionViewModel) {
     // Observamos el usuario actual desde el ViewModel para mostrar su información real
     val usuario by viewModel.usuarioActual.collectAsState()
+    val favoritosSet by atraccionViewModel.favoritos.collectAsState()
+    val atracciones by atraccionViewModel.atracciones.collectAsState()
+    val favoritosCount = favoritosSet.size
+    val activasCount = atracciones.count { it.estado.equals("ABIERTA", ignoreCase = true) }
+    var showHelp by remember { mutableStateOf(false) }
+    var showConfig by remember { mutableStateOf(false) }
+    var showNotifications by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
 
     // Usamos Scaffold para añadir la barra de navegación inferior fácilmente
@@ -143,9 +157,8 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
                     .padding(bottom = 32.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                EstadisticaCard(icon = Icons.Default.FavoriteBorder, value = "1", label = "Favoritos", iconColor = Color.Red)
-                EstadisticaCard(icon = Icons.Default.StarBorder, value = "4.9", label = "Rating", iconColor = Color(0xFFFFB300))
-                EstadisticaCard(icon = Icons.Default.Settings, value = "6", label = "Activas", iconColor = AccentGreen)
+                EstadisticaCard(icon = Icons.Default.FavoriteBorder, value = favoritosCount.toString(), label = "Favoritos", iconColor = Color.Red)
+                EstadisticaCard(icon = Icons.Default.Settings, value = activasCount.toString(), label = "Activas", iconColor = AccentGreen)
             }
 
             // Menú de opciones
@@ -161,7 +174,7 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
                         iconBgColor = Color(0xFFFFEBEE),
                         iconColor = Color.Red,
                         title = "Mis Favoritos",
-                        subtitle = "1 atracciones",
+                        subtitle = "${favoritosCount} atracciones",
                         onClick = { navController.navigate("favoritos") }
                     )
                     OpcionPerfilItem(
@@ -169,14 +182,16 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
                         iconBgColor = Color(0xFFFFF3E0),
                         iconColor = Color(0xFFFF9800),
                         title = "Notificaciones",
-                        subtitle = "Gestionar alertas")
+                        subtitle = "Gestionar alertas",
+                        onClick = { showNotifications = true })
 
                     OpcionPerfilItem(
                         icon = Icons.Outlined.Settings,
                         iconBgColor = Color(0xFFF5F5F5),
                         iconColor = Color.Gray,
                         title = "Configuración",
-                        subtitle = "Preferencias de la app")
+                        subtitle = "Preferencias de la app",
+                        onClick = { showConfig = true })
 
                     OpcionPerfilItem(
                         icon = Icons.AutoMirrored.Filled.HelpOutline,
@@ -184,7 +199,8 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
                         iconColor = Color(0xFF2196F3),
                         title = "Ayuda",
                         subtitle = "Centro de soporte",
-                        isLast = true)
+                        isLast = true,
+                        onClick = { showHelp = true })
                 }
             }
 
@@ -222,6 +238,63 @@ fun PantallaMiPerfil(navController: NavController, viewModel: UsuarioViewModel) 
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
+
+        // Dialogos simples para Ayuda / Configuración / Notificaciones
+        if (showHelp) {
+            AlertDialog(
+                onDismissRequest = { showHelp = false },
+                title = { Text("Ayuda & Soporte", color = TextoPrincipal) },
+                text = {
+                    Column {
+                        Text("Si tienes dudas, contáctanos:", color = TextoSecundario)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Correo: admin@parqueaventura.com", color = TextoPrincipal)
+                        Text("Tel: 3114318088", color = TextoPrincipal)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Horario de atención: Lun-Vie 9:00 - 18:00", color = TextoSecundario)
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { showHelp = false }) { Text("Volver", color = AccentGreen) }
+                },
+                containerColor = Color.White,
+                shape = RoundedCornerShape(16.dp)
+            )
+        }
+
+        if (showConfig) {
+            AlertDialog(
+                onDismissRequest = { showConfig = false },
+                title = { Text("Configuración", color = TextoPrincipal) },
+                text = {
+                    Column {
+                        Text("Ajustes de la aplicación:", color = TextoSecundario)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("- Tema: Claro", color = TextoPrincipal)
+                        Text("- Idioma: Español", color = TextoPrincipal)
+                        Text("- Bloqueo por PIN: Desactivado", color = TextoPrincipal)
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { showConfig = false }) { Text("Cerrar", color = AccentGreen) }
+                },
+                containerColor = Color.White,
+                shape = RoundedCornerShape(16.dp)
+            )
+        }
+
+        if (showNotifications) {
+            AlertDialog(
+                onDismissRequest = { showNotifications = false },
+                title = { Text("Notificaciones", color = TextoPrincipal) },
+                text = { Text("No tienes notificaciones nuevas.", color = TextoSecundario) },
+                confirmButton = {
+                    TextButton(onClick = { showNotifications = false }) { Text("Cerrar", color = AccentGreen) }
+                },
+                containerColor = Color.White,
+                shape = RoundedCornerShape(16.dp)
+            )
+        }
 }
 
 @Composable
@@ -249,7 +322,7 @@ fun BarraNavegacionInferior(navController: NavController) {
             ItemNavegacionPerfil(
                 icon = Icons.Default.ConfirmationNumber,
                 label = "Atracciones",
-                onClick = { /* Navegar a Atracciones cuando creemos la pantalla */ }
+                onClick = { navController.navigate("atracciones") }
             )
             // Configuración para ir a la pantalla de Favoritos
             ItemNavegacionPerfil(

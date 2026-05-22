@@ -33,7 +33,7 @@ fun AppNavigation(
     ){
         composable("login") { PantallaLogin(navController, userViewModel) }
         composable("registro") { PantallaRegistro(navController, userViewModel) }
-        composable("perfil") { PantallaMiPerfil(navController, userViewModel) }
+        composable("perfil") { PantallaMiPerfil(navController, userViewModel, atraccionViewModel) }
         composable("admin_usuarios") { AdminUsuariosPantalla(navController, userViewModel) }
         composable("mapa_parque"){ PantallaMapaUsuario(navController, atraccionViewModel) }
         composable("favoritos"){ PantallaMisFavoritos(navController, userViewModel, atraccionViewModel) }
