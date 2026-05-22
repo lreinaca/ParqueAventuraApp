@@ -78,6 +78,8 @@ dependencies {
     // Retrofit + Gson (conversión JSON -> objetos)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
