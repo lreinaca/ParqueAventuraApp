@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.eam.parqueaventuraapp.data.modelo.Atraccion
+import android.content.Context
 import com.eam.parqueaventuraapp.data.repository.AtraccionRepositorio
+import com.eam.parqueaventuraapp.data.repository.FavoritosRepositorio
 import com.eam.parqueaventuraapp.ui.theme.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -36,10 +38,13 @@ data class AtraccionDetalleUI(
     val nivelIntensidad: String = "",
     val valorProgreso: Float = 0f,
     val color: Color = Color.Gray,
-    val zonaParque: String = ""
+    val zonaParque: String = "",
+    val estadoBadge: String = "",
+    val estadoColor: Color = Color.Gray,
+    val rating: Float = 4.5f
 )
 
-class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewModel() {
+class AtraccionViewModel(private val repositorio: AtraccionRepositorio, private val favoritosRepositorio: FavoritosRepositorio) : ViewModel() {
 
     // --- ESTADOS DE FILTROS ---
     private val _textoBusqueda = MutableStateFlow("")
@@ -100,11 +105,30 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
     // --- LÓGICA DE APOYO ---
 
     fun obtenerDetalleUI(atraccion: Atraccion): AtraccionDetalleUI {
+        val estadoTexto = when (atraccion.estado.uppercase()) {
+            "ABIERTA" -> "Activa"
+            "MANTENIMIENTO" -> "Mantenimiento"
+            "CERRADA" -> "Cerrada"
+            else -> atraccion.estado.replaceFirstChar { it.uppercase() }
+        }
+        val estadoColor = when (atraccion.estado.uppercase()) {
+            "ABIERTA" -> Color(0xFF5CB460)
+            "MANTENIMIENTO" -> Color(0xFFFA9E16)
+            "CERRADA" -> Color(0xFFCD3735)
+            else -> Color.Gray
+        }
+        val rating = when (atraccion.tipo.lowercase()) {
+            "infantil" -> 4.8f
+            "familiar" -> 4.5f
+            "extrema" -> 4.2f
+            else -> 4.3f
+        }
+
         return when (atraccion.tipo.lowercase()) {
-            "infantil" -> AtraccionDetalleUI("Muy Baja", 0.2f, ColorInfantil, "Zona Infantil")
-            "familiar" -> AtraccionDetalleUI("Media", 0.5f, ColorFamiliar, "Zona Familiar")
-            "extrema" -> AtraccionDetalleUI("Alta", 0.85f, ColorExtrema, "Zona Extrema")
-            else -> AtraccionDetalleUI("Normal", 0.5f, Color.Gray, "Zona General")
+            "infantil" -> AtraccionDetalleUI("Muy Baja", 0.2f, ColorInfantil, "Zona Infantil", estadoTexto, estadoColor, rating)
+            "familiar" -> AtraccionDetalleUI("Media", 0.5f, ColorFamiliar, "Zona Familiar", estadoTexto, estadoColor, rating)
+            "extrema" -> AtraccionDetalleUI("Alta", 0.85f, ColorExtrema, "Zona Extrema", estadoTexto, estadoColor, rating)
+            else -> AtraccionDetalleUI("Normal", 0.5f, Color.Gray, "Zona General", estadoTexto, estadoColor, rating)
         }
     }
 
@@ -121,7 +145,18 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
     private val _cargando = MutableStateFlow(false)
     val cargando = _cargando.asStateFlow()
 
-    init { refrescar() }
+    init {
+        refrescar()
+        // Observamos la fuente persistente de favoritos
+        viewModelScope.launch {
+            favoritosRepositorio.favoritosFlow.collect { set ->
+                _favoritos.value = set
+            }
+        }
+    }
+    private val _favoritos = MutableStateFlow<Set<String>>(emptySet())
+    val favoritos = _favoritos.asStateFlow()
+
     fun refrescar() {
         viewModelScope.launch {
             _cargando.value = true // activa el spinner
@@ -132,6 +167,26 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
             } finally {
                 _cargando.value = false // desactiva el spinner (siempre)
             }
+        }
+    }
+
+    fun agregarAFavoritos(atraccionId: String) {
+        viewModelScope.launch {
+            favoritosRepositorio.agregarFavorito(atraccionId)
+        }
+    }
+
+    fun eliminarDeFavoritos(atraccionId: String) {
+        viewModelScope.launch {
+            favoritosRepositorio.eliminarFavorito(atraccionId)
+        }
+    }
+
+    fun toggleFavorito(atraccionId: String) {
+        if (_favoritos.value.contains(atraccionId)) {
+            eliminarDeFavoritos(atraccionId)
+        } else {
+            agregarAFavoritos(atraccionId)
         }
     }
     fun insertar(a: Atraccion) {
@@ -181,11 +236,11 @@ class AtraccionViewModel(private val repositorio: AtraccionRepositorio) : ViewMo
     fun resetFiltros() { _estadoFiltro.value = "Todas"; _tiempoMaxEspera.value = 60f }
 }
 
-class AtraccionViewModelFactory(private val repositorio: AtraccionRepositorio) : ViewModelProvider.Factory {
+class AtraccionViewModelFactory(private val repositorio: AtraccionRepositorio, private val favoritosRepositorio: FavoritosRepositorio) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AtraccionViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return AtraccionViewModel(repositorio) as T
+            return AtraccionViewModel(repositorio, favoritosRepositorio) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

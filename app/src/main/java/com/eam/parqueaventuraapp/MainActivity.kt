@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
 
         // AHORA: Usamos el servicio de Retrofit en lugar del DAO
         val atraccionRepositorio = AtraccionRepositorio(RetrofitClient.apiService)
-        val atraccionFactory = AtraccionViewModelFactory(atraccionRepositorio)
+        val favoritosRepositorio = com.eam.parqueaventuraapp.data.repository.FavoritosRepositorio(this)
+        val atraccionFactory = AtraccionViewModelFactory(atraccionRepositorio, favoritosRepositorio)
 
         enableEdgeToEdge()
         
