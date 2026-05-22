@@ -11,6 +11,7 @@ import com.eam.parqueaventuraapp.data.modelo.Usuario
 import com.eam.parqueaventuraapp.data.modelo.repository.UsuarioRepositorio
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -33,13 +34,14 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
     private val _loginStatus = MutableLiveData<Boolean?>()
     val loginStatus: LiveData<Boolean?> = _loginStatus
 
+    // Flujo para la navegación (para que la pantalla sepa a dónde ir)
     private val _navegacionDestino = MutableSharedFlow<String>()
-    val navegacionDestino = _navegacionDestino.asSharedFlow()
+    val navegacionDestino: SharedFlow<String> = _navegacionDestino.asSharedFlow()
 
+    // Flujo para mensajes de error
     private val _errorMensaje = MutableStateFlow<String?>(null)
-    val errorMensaje = _errorMensaje.asStateFlow()
+    val errorMensaje: StateFlow<String?> = _errorMensaje.asStateFlow()
 
-    // Estado para las credenciales recordadas
     private val _credencialesRecordadas = MutableStateFlow<Pair<String, String>>(Pair("", ""))
     val credencialesRecordadas: StateFlow<Pair<String, String>> = _credencialesRecordadas.asStateFlow()
 
@@ -59,11 +61,11 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
     }
 
     fun inicioSesion(context: Context, correo: String, clave: String) {
-        if (correo.isBlank() || clave.isBlank()) {
-            _errorMensaje.value = "Por favor, completa todos los campos"
+        if (correo.isEmpty() || clave.isEmpty()) {
+            _errorMensaje.value = "Por favor completa todos los campos"
             return
         }
-        
+
         viewModelScope.launch {
             val usuario = repositorio.login(correo, clave)
             if (usuario != null) {
@@ -71,26 +73,24 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
                 _usuarioActual.value = usuario
                 _loginStatus.postValue(true)
                 
-                // Decidimos la navegación en el ViewModel
+                // Decidir destino según el rol
                 val destino = if (usuario.rol == Roles.ADMIN) "panelAdmin" else "inicioUsuario"
                 _navegacionDestino.emit(destino)
             } else {
-                _loginStatus.postValue(false)
                 _errorMensaje.value = "Correo o contraseña incorrectos"
+                _loginStatus.postValue(false)
             }
         }
     }
 
-    fun registro(nombre: String, correo: String, clave: String) {
-        if (nombre.isBlank() || correo.isBlank() || clave.isBlank()) {
-            _errorMensaje.value = "Todos los campos son obligatorios"
-            return
-        }
+    fun clearError() {
+        _errorMensaje.value = null
+    }
 
+    fun registro(nombre: String, correo: String, clave: String) {
         viewModelScope.launch {
             val usuarioExistente = repositorio.buscarPorCorreo(correo)
             if(usuarioExistente != null) {
-                _loginStatus.postValue(false)
                 _errorMensaje.value = "El correo ya está registrado"
             } else {
                 val nuevoUsuario = Usuario(
@@ -100,7 +100,7 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
                     rol    = Roles.USUARIO
                 )
                 repositorio.insertar(nuevoUsuario)
-                _loginStatus.postValue(true)
+                _navegacionDestino.emit("login")
             }
         }
     }
@@ -108,11 +108,6 @@ class UsuarioViewModel(private val repositorio: UsuarioRepositorio) : ViewModel(
     fun cerrarSesion() {
         _usuarioActual.value = null
         _loginStatus.postValue(null)
-        _errorMensaje.value = null
-    }
-
-    fun clearError() {
-        _errorMensaje.value = null
     }
 
     init {
